@@ -21,7 +21,6 @@ public static class Manager
         SceneManager.ReleaseInstance();
         SoundManager.ReleaseInstance();
         UIManager.ReleaseInstance();
-        ChampionManager.ReleaseInstance();
 
         GameManager.CreateInstance();
         DataManager.CreateInstance();
