@@ -13,6 +13,8 @@ public class ChampionData : MonoBehaviour
     [SerializeField] public int damage;
     public int respawn = 5;
     public Transform my;
+    [SerializeField] public Animator animator;
+
     private void Awake()
     {
         hp = maxHp;

@@ -17,6 +17,7 @@ public class ChampionController : MonoBehaviour
     [SerializeField] GameObject enemy;
     public GameObject Enemy { get { return enemy; } set { enemy = value; } }
 
+
     private void Start()
     {
         stateMachine.AddState(State.Idle, new IdleState(this));
@@ -47,9 +48,12 @@ public class ChampionController : MonoBehaviour
     {
         while (Enemy.gameObject)
         {
+            data.animator.Play("Attack");
+
             Debug.Log("겁나 때린다.");
             Enemy.GetComponent<ChampionData>().hp -= data.damage;
             yield return new WaitForSeconds(data.attackTime);
+
         }
     }
     private class ChampionState : BaseState<State>
@@ -76,6 +80,7 @@ public class ChampionController : MonoBehaviour
         }
         public override void Update()
         {
+
             if (controller.data.hp >= 0)
             {
                 controller.stateMachine.ChangeState(State.Die);
@@ -132,9 +137,14 @@ public class ChampionController : MonoBehaviour
         public MoveState(ChampionController owner) : base(owner)
         {
         }
+        public override void Enter()
+        {
+            controller.data.animator.Play("Move");
+        }
 
         public override void Update()
         {
+
             // 상대방한테 이동
             dir = (enemyPos.position - controller.transform.position).normalized;
             controller.transform.Translate(dir * controller.data.speed * Time.deltaTime);
@@ -157,9 +167,11 @@ public class ChampionController : MonoBehaviour
         public AttackState(ChampionController owner) : base(owner)
         {
         }
+
         // 때리는 액션
         public override void Enter()
         {
+
             Debug.Log("때린다.");
             controller.Attack();
         }
@@ -189,9 +201,10 @@ public class ChampionController : MonoBehaviour
         public override void Enter()
         {
             // 죽인다.
-            Destroy(controller.gameObject);
+            controller.data.animator.Play("Die");
+            Destroy(controller.gameObject, 1f);
         }
-
+        
     }
 
 

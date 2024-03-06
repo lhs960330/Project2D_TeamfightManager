@@ -1012,25 +1012,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 17409896784536454, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1177700788798979646, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
       propertyPath: enemy
       value: 
       objectReference: {fileID: 741788749}
-    - target: {fileID: 1177700788798979646, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1335361245161807742, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
       propertyPath: my
       value: 
       objectReference: {fileID: 420859295}
     - target: {fileID: 1335361245161807742, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
-      propertyPath: range
-      value: 3
+      propertyPath: damage
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4234654039299376738, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1071,6 +1063,26 @@ PrefabInstance:
     - target: {fileID: 4234654039299376738, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473025725778414920, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473025725778414920, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473025725778414920, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473025725778414920, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473025725778414920, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8441545666107481999, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
       propertyPath: m_Name

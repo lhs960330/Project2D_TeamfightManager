@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 447142995697506604}
   - component: {fileID: 1177700788798979646}
   - component: {fileID: 1335361245161807742}
+  - component: {fileID: 1458423972525169696}
   m_Layer: 3
   m_Name: knight_0
   m_TagString: Champion
@@ -174,7 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 1335361245161807742}
   enemy: {fileID: 0}
-  prefab: {fileID: 8441545666107481999}
 --- !u!114 &1335361245161807742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,11 +187,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 10
   hp: 0
   speed: 3
-  range: 5
+  range: 3
   attackTime: 3
   damage: 1
   respawn: 5
   my: {fileID: 0}
+  animator: {fileID: 1458423972525169696}
+--- !u!95 &1458423972525169696
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8441545666107481999}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce8388f18f7964b43998eea3f15faada, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5961341800054664561}
   - component: {fileID: 4572347768427297749}
   - component: {fileID: 7751023129148853214}
+  - component: {fileID: 3345839543349677850}
   m_Layer: 3
   m_Name: archer_0
   m_TagString: Champion
@@ -174,7 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 7751023129148853214}
   enemy: {fileID: 0}
-  prefab: {fileID: 8190449440689917571}
 --- !u!114 &7751023129148853214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1
+  maxHp: 10
   hp: 0
   speed: 3
   range: 5
@@ -195,3 +195,25 @@ MonoBehaviour:
   damage: 2
   respawn: 5
   my: {fileID: 0}
+  animator: {fileID: 3345839543349677850}
+--- !u!95 &3345839543349677850
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190449440689917571}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dcb028d2e42ca664c865aacd8d61c025, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
