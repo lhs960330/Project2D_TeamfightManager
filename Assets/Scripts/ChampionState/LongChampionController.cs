@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 
 public class LongChampionController : MonoBehaviour
@@ -57,11 +58,11 @@ public class LongChampionController : MonoBehaviour
         {
             // 어택 애니메이션을 실행해줌
             data.animator.Play("Attack");
-            // 어택될떄마다 체력이 깍임
+            arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
+            // 어택될때마다 체력이 깍임
             Enemy.GetComponent<ChampionData>().hp -= data.damage;
             // 각 어택마다 시간을 줌
             yield return new WaitForSeconds(data.attackTime);
-
         }
     }
 
@@ -188,15 +189,17 @@ public class LongChampionController : MonoBehaviour
     {
         public AttackState(LongChampionController owner) : base(owner)
         {
-            
+
         }
 
         // 때리는 액션
         public override void Enter()
         {
-
+            // 오브젝트의 flipx의 상태를 확인
             isOK = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
+
             arrowPos = controller.ArrowPoint.transform.localPosition;
+            // 오브젝트의 flipx의 따라 화살이 나가는 point를 바꿔줌
             if (isOK == true)
             {
                 if (controller.arrowPoint.transform.localPosition.x > 0)
@@ -211,16 +214,19 @@ public class LongChampionController : MonoBehaviour
                 else
                     controller.arrowPoint.transform.localPosition = arrowPos;
             }
+            // 코루틴이 실행됐을때 화살이 적에게 날아감
             controller.Attack();
+
+
+            // 한대치고 도망갈 쿨타임
             controller.data.avoidcool = 0;
-            controller.arrowPoint.GetPool(controller.arrowPoint.transform.position,  controller.arrowPoint.transform.rotation);
+            
+            
         }
         public override void Update()
         {
-
-
+            // 시간으로 기록
             controller.data.avoidcool += Time.deltaTime;
-
         }
 
         public override void Transition()
@@ -229,7 +235,7 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-            // 상대방과 내 거리가 회피거리안에 들어왔을때 회피상태로 바꿔줌
+            // 상대방과 내 거리가 회피거리안에 들어오고 한대때리고 떄린 시간만큼 기다렸다가 도망 회피상태로 바꿔줌
             if (Vector3.Distance(enemyPos.position, controller.transform.position) <= controller.data.range && controller.data.avoidcool > controller.data.attackTime)
             {
                 controller.stateMachine.ChangeState(State.Avoid);
