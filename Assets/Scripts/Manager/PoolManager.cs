@@ -23,7 +23,6 @@ public class PoolManager : Singleton<PoolManager>
 
         poolDic.Remove(prefab.GetInstanceID());
     }
-
     public void ClearPool()
     {
         foreach (ObjectPool objectPool in poolDic.Values)

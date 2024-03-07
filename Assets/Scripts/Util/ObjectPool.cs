@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] PooledObject prefab;
-    [SerializeField] int size;
-    [SerializeField] int capacity;
+    [SerializeField] protected PooledObject prefab;
+    [SerializeField] protected int size;
+    [SerializeField] protected int capacity;
 
     private Stack<PooledObject> objectPool;
 
@@ -25,6 +25,7 @@ public class ObjectPool : MonoBehaviour
             objectPool.Push(instance);
         }
     }
+   
 
     public PooledObject GetPool(Vector3 position, Quaternion rotation)
     {

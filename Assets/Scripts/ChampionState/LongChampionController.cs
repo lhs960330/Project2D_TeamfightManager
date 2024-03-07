@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.SceneManagement;
+
 
 public class LongChampionController : MonoBehaviour
 {
@@ -21,8 +18,9 @@ public class LongChampionController : MonoBehaviour
     [SerializeField] GameObject enemy;
     public GameObject Enemy { get { return enemy; } set { enemy = value; } }
 
-
-
+    // 에로우 포인트를 가져옴
+    [SerializeField] Test arrowPoint;
+    public Test ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -66,6 +64,7 @@ public class LongChampionController : MonoBehaviour
 
         }
     }
+
     private class ChampionState : BaseState<State>
     {
 
@@ -76,6 +75,10 @@ public class LongChampionController : MonoBehaviour
         protected Vector3 dir;
 
         protected Vector3 startPos;
+
+        // 에로우포인가 공격 모션 활 앞으로 가게 만들기위한 변수들
+        protected Vector3 arrowPos;
+        protected bool isOK;
         // 여기서 초기화
         public ChampionState(LongChampionController owner)
         {
@@ -185,18 +188,41 @@ public class LongChampionController : MonoBehaviour
     {
         public AttackState(LongChampionController owner) : base(owner)
         {
+            
         }
 
         // 때리는 액션
         public override void Enter()
         {
-            controller.data.avoidcool = 0;
+
+            isOK = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
+            arrowPos = controller.ArrowPoint.transform.localPosition;
+            if (isOK == true)
+            {
+                if (controller.arrowPoint.transform.localPosition.x > 0)
+                    controller.arrowPoint.transform.localPosition = -arrowPos;
+                else
+                    controller.arrowPoint.transform.localPosition = arrowPos;
+            }
+            else if (isOK == false)
+            {
+                if (controller.arrowPoint.transform.localPosition.x < 0)
+                    controller.arrowPoint.transform.localPosition = -arrowPos;
+                else
+                    controller.arrowPoint.transform.localPosition = arrowPos;
+            }
             controller.Attack();
+            controller.data.avoidcool = 0;
+            controller.arrowPoint.GetPool(controller.arrowPoint.transform.position,  controller.arrowPoint.transform.rotation);
         }
         public override void Update()
         {
+
+
             controller.data.avoidcool += Time.deltaTime;
+
         }
+
         public override void Transition()
         {
             if (controller.data.hp <= 0)
@@ -206,15 +232,17 @@ public class LongChampionController : MonoBehaviour
             // 상대방과 내 거리가 회피거리안에 들어왔을때 회피상태로 바꿔줌
             if (Vector3.Distance(enemyPos.position, controller.transform.position) <= controller.data.range && controller.data.avoidcool > controller.data.attackTime)
             {
-                controller.StopAttack();
                 controller.stateMachine.ChangeState(State.Avoid);
             }
             // 떨어졌을때 안떄리기
             if (controller.Enemy == true && Vector3.Distance(enemyPos.position, controller.transform.position) >= controller.data.range)
             {
-                controller.StopAttack();
                 controller.stateMachine.ChangeState(State.Idle);
             }
+        }
+        public override void Exit()
+        {
+            controller.StopAttack();
         }
     }
     //회피가동
@@ -292,6 +320,4 @@ public class LongChampionController : MonoBehaviour
         }
 
     }
-
-
 }

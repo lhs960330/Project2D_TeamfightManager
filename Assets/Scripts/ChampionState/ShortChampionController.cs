@@ -55,8 +55,7 @@ public class ShortChampionController : MonoBehaviour
     {
         while (Enemy.gameObject)
         {
-            // 어택 애니메이션을 실행해줌
-            data.animator.Play("Attack");
+            
             // 어택될떄마다 체력이 깍임
             Enemy.GetComponent<ChampionData>().hp -= data.damage;
             // 각 어택마다 시간을 줌
@@ -189,13 +188,15 @@ public class ShortChampionController : MonoBehaviour
         // 때리는 액션
         public override void Enter()
         {
-
-            controller.Attack();
+            // 어택 애니메이션을 실행해줌
+            // 애니메이션 이벤트를 통해 어택 코루틴 실행
+            controller.data.animator.Play("Attack");
         }
         public override void Update()
         {
             if (controller.data.hp <= 0)
             {
+                controller.StopAttack();
                 controller.stateMachine.ChangeState(State.Die);
             }
 
@@ -205,6 +206,10 @@ public class ShortChampionController : MonoBehaviour
                 controller.StopAttack();
                 controller.stateMachine.ChangeState(State.Idle);
             }
+        }
+        public override void Exit()
+        {
+            controller.StopAttack();
         }
     }
 
