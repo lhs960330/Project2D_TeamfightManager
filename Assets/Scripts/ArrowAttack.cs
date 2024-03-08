@@ -23,7 +23,8 @@ public class ArrowAttack : PooledObject
         arrowSpawn = Manager.Game.longChampion[0].ArrowPoint;
         // 이 스크립트를 가지고있는 친구에 위치 방향
         arrow = transform.position;
-        // 근거리들 중 0번째 친구에 위치 방향
+        // 적찾기 위치 방향
+
         enemy = Manager.Game.shortChampion[0].gameObject.transform.position;
     }
 
