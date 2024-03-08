@@ -20,8 +20,11 @@ public class LongChampionController : MonoBehaviour
     public GameObject Enemy { get { return enemy; } set { enemy = value; } }
 
     // 에로우 포인트를 가져옴
-    [SerializeField] Test arrowPoint;
-    public Test ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
+    [SerializeField] arrowSpawn arrowPoint;
+    public arrowSpawn ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
+    private void Awake()
+    {
+    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -31,7 +34,6 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Attack, new AttackState(this));
         stateMachine.AddState(State.Avoid, new AvoidState(this));
         stateMachine.AddState(State.Die, new DieState(this));
-
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
     }
@@ -116,9 +118,11 @@ public class LongChampionController : MonoBehaviour
         public override void Enter()
         {
             // 적이 있으면 위치 추적 게임오브젝트에 위치를 가져오고 없으면 가만히 있는 상태로 간다.
+
             if (controller.Enemy == true)
             {
-                enemyPos = controller.Enemy.transform;
+                if(Manager.Game.championsdata.ContainsKey(!controller.data.team))
+                    enemyPos = controller.Enemy.transform;
             }
             else
             {
@@ -199,6 +203,7 @@ public class LongChampionController : MonoBehaviour
             isOK = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
 
             arrowPos = controller.ArrowPoint.transform.localPosition;
+            Debug.Log(arrowPos);
             // 오브젝트의 flipx의 따라 화살이 나가는 point를 바꿔줌
             if (isOK == true)
             {
@@ -216,12 +221,10 @@ public class LongChampionController : MonoBehaviour
             }
             // 코루틴이 실행됐을때 화살이 적에게 날아감
             controller.Attack();
-
-
             // 한대치고 도망갈 쿨타임
             controller.data.avoidcool = 0;
             
-            
+
         }
         public override void Update()
         {

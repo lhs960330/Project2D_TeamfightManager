@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3272218106679047989}
   - component: {fileID: 5961341800054664561}
   - component: {fileID: 3345839543349677850}
+  - component: {fileID: 2406371186875519803}
+  - component: {fileID: 1966874945111043101}
   m_Layer: 3
   m_Name: archer_0
   m_TagString: Champion
@@ -32,7 +34,8 @@ Transform:
   m_LocalPosition: {x: -9.53, y: 0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8031827953849074767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &262512296132959723
@@ -78,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ec208d68ba0ce59418562f84314b69b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 4, y: 4}
@@ -180,3 +183,90 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2406371186875519803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190449440689917571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10000000
+  hp: 0
+  speed: 4
+  range: 8
+  attackTime: 2
+  damage: 3
+  avoidrange: 0
+  team: 0
+  avoidcool: 0
+  respawn: 5
+  my: {fileID: 9026913363476555640}
+  animator: {fileID: 3345839543349677850}
+--- !u!114 &1966874945111043101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190449440689917571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b874342532b01b3439bf22b467252f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 2406371186875519803}
+  enemy: {fileID: 0}
+  arrowPoint: {fileID: 8801632130277444916}
+--- !u!1 &8950355320317244040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8031827953849074767}
+  - component: {fileID: 8801632130277444916}
+  m_Layer: 3
+  m_Name: ArrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8031827953849074767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950355320317244040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.32, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9026913363476555640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8801632130277444916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950355320317244040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5394b16013736f45b82254f573197d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7110050335148162475, guid: 41557aa6e3bf2a5439f1dff583324bbc, type: 3}
+  size: 2
+  capacity: 2
+  prefab1: {fileID: 7110050335148162475, guid: 41557aa6e3bf2a5439f1dff583324bbc, type: 3}

@@ -5,6 +5,7 @@ using UnityEngine.WSA;
 
 public class ChampionData : MonoBehaviour
 {
+    public enum Team { Red, Blue }
     [SerializeField] public int maxHp;
     public int hp;
     [SerializeField] public int speed;
@@ -12,7 +13,8 @@ public class ChampionData : MonoBehaviour
     [SerializeField] public int attackTime;
     [SerializeField] public int damage;
     [SerializeField] public float avoidrange;
-
+    //  true : Red
+    [SerializeField] public bool team;
     public float avoidcool = 0;
     public int respawn = 5;
     public Transform my;
@@ -23,6 +25,7 @@ public class ChampionData : MonoBehaviour
         avoidrange = range - 1;
         hp = maxHp;
         gameObject.transform.position = my.position;
+
+
     }
-   
 }

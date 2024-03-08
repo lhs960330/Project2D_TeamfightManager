@@ -48,6 +48,7 @@ public class ShortChampionController : MonoBehaviour
     public void StopAttack()
     {
         // 끝나면 멈추게 해줌
+        if(attackRouine !=  null)
         StopCoroutine(attackRouine);
     }
     Coroutine attackRouine;
@@ -192,18 +193,18 @@ public class ShortChampionController : MonoBehaviour
             // 애니메이션 이벤트를 통해 어택 코루틴 실행
             controller.data.animator.Play("Attack");
         }
-        public override void Update()
+        public override void Transition()
         {
             if (controller.data.hp <= 0)
             {
-                controller.StopAttack();
+
                 controller.stateMachine.ChangeState(State.Die);
             }
 
             // 떨어졌을때 안떄리기
             if (controller.Enemy == true && Vector3.Distance(enemyPos.position, controller.transform.position) >= controller.data.range)
             {
-                controller.StopAttack();
+
                 controller.stateMachine.ChangeState(State.Idle);
             }
         }

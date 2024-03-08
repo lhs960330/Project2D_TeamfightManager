@@ -1,15 +1,32 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class ObjectPool : MonoBehaviour
+// È­»ì ¸®Á¨
+public class arrowSpawn : ObjectPool
 {
-    [SerializeField] protected PooledObject prefab;
-    [SerializeField] protected int size;
-    [SerializeField] protected int capacity;
 
-    protected Stack<PooledObject> objectPool;
+    Transform target;
+    [SerializeField] ArrowAttack prefab1;
+    public void SetEnemy(Transform enemy)
+    {
+        target = enemy;
+    }
+    public Transform GetEnemy()
+    {
+        return target;
+    }
+    private void Awake()
+    {     
+        CreatePool(prefab, size, capacity);
+    }
 
-    public virtual void CreatePool(PooledObject prefab, int size, int capacity)
+    private void Start()
+    {
+    }
+    public void CreatePool(ArrowAttack prefab, int size, int capacity)
     {
         this.prefab = prefab;
         this.size = size;
@@ -18,16 +35,15 @@ public class ObjectPool : MonoBehaviour
         objectPool = new Stack<PooledObject>(capacity);
         for (int i = 0; i < size; i++)
         {
-            PooledObject instance = Instantiate(prefab);
+            ArrowAttack instance = Instantiate(prefab);
             instance.gameObject.SetActive(false);
-            instance.Pool = this;
+            instance.Pool = this; 
             instance.transform.parent = transform;
             objectPool.Push(instance);
         }
     }
-   
 
-    public virtual PooledObject GetPool(Vector3 position, Quaternion rotation)
+    public override PooledObject GetPool(Vector3 position, Quaternion rotation)
     {
         if (objectPool.Count > 0)
         {
@@ -47,7 +63,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    public virtual void ReturnPool(PooledObject instance)
+    public override void ReturnPool(PooledObject instance)
     {
         if (objectPool.Count < capacity)
         {
