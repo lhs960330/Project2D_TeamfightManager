@@ -45,7 +45,6 @@ public class GameManager : Singleton<GameManager>
         // 팀으로 넣어줌(팀분류를 여기서해야되나?)
         for (int i = 0; i < championDatas.Length; i++)
         {
-            Debug.Log(championDatas.Length);
             if (championDatas[i] == null) continue;
             // 레드
             if (championDatas[i].team == true)
