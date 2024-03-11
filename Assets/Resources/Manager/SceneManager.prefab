@@ -500,4 +500,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fade: {fileID: 189024980055911229}
   loadingBar: {fileID: 4887027253395517611}
-  fadeTime: 0.5
+  fadeTime: 1
+  Loading: {fileID: 0}

@@ -28,6 +28,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TitleScene",
+            "id": "ab61016b-7fa6-4055-b1be-ae847957d54c",
+            "actions": [
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "8a9c93d8-fd8e-4d27-96d3-27326f8ec3db",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e931bed3-18bf-4bd8-990c-d9ae338aa935",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
