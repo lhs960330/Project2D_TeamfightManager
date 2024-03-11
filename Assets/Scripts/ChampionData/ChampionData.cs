@@ -5,7 +5,7 @@ using UnityEngine.WSA;
 
 public class ChampionData : MonoBehaviour
 {
-    public enum Team { Red, Blue }
+    [SerializeField] public int Team;
     [SerializeField] public int maxHp;
     public int hp;
     [SerializeField] public int speed;

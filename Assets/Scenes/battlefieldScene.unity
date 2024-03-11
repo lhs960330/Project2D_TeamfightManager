@@ -1988,6 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Team: 1
   maxHp: 100
   hp: 0
   speed: 4
@@ -2142,6 +2143,10 @@ PrefabInstance:
     - target: {fileID: 2406371186875519803, guid: 6ce891885a179a747a0a754424f70d8f, type: 3}
       propertyPath: range
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406371186875519803, guid: 6ce891885a179a747a0a754424f70d8f, type: 3}
+      propertyPath: team1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8190449440689917571, guid: 6ce891885a179a747a0a754424f70d8f, type: 3}
       propertyPath: m_Name

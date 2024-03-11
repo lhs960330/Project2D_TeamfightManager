@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -6,6 +7,8 @@ using UnityEngine.InputSystem.XR;
 
 public class LongChampionController : MonoBehaviour
 {
+    // 적들을 모아둠
+    public List<ChampionData> Enemy;
     // 상태들 모아둠
     public enum State { Idle, Find, Move, Attack, Avoid, Die }
 
@@ -14,23 +17,17 @@ public class LongChampionController : MonoBehaviour
 
     // 각 챔피언에 스택이 담긴 클래스를 가져옴 
     [SerializeField] ChampionData data;
-    public ChampionData Data { get { return data; } set { data = value; } }
-
-    // 상대방에 게임오브젝트를 가져옴
-    ChampionData[] enemy;
-    public ChampionData[] Enemy { get { return enemy; } set { enemy = value; } }
 
     // 에로우 포인트를 가져옴
     [SerializeField] arrowSpawn arrowPoint;
+    public arrowSpawn ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
     ChampionData targetEnemy;
-
+    public ChampionData TargetEnemy { get {  return targetEnemy; } set {  targetEnemy = value; } }
     // 적의 위치를 가져온다.
     Transform enemyPos;
     public Transform EnemyPos { get { return enemyPos; } set { enemyPos = value; } }
-    public arrowSpawn ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
-    private void Awake()
-    {
-    }
+
+
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -42,6 +39,8 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Die, new DieState(this));
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
+        Enemy = new List<ChampionData>();
+
     }
 
     private void Update()
@@ -57,21 +56,23 @@ public class LongChampionController : MonoBehaviour
     public void StopAttack()
     {
         // 끝나면 멈추게 해줌
-        StopCoroutine(attackRouine);
+        if(attackRouine != null)
+            StopCoroutine(attackRouine);
     }
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
-        while (targetEnemy.gameObject)
+        while (EnemyPos)
         {
             // 어택 애니메이션을 실행해줌
             data.animator.Play("Attack");
             arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
             // 어택될때마다 체력이 깍임
-            targetEnemy.GetComponent<ChampionData>().hp -= data.damage;
+            enemyPos.GetComponent<ChampionData>().hp -= data.damage;
             // 각 어택마다 시간을 줌
             yield return new WaitForSeconds(data.attackTime);
         }
+
     }
 
     private class ChampionState : BaseState<State>
@@ -120,39 +121,61 @@ public class LongChampionController : MonoBehaviour
     {
         public FindState(LongChampionController owner) : base(owner)
         {
-
         }
 
         public override void Enter()
         {
-            // 적들을 모아놓음 
-            controller.enemy = Manager.Game.championsdata[!controller.data.team];
-
-            controller.targetEnemy = controller.enemy[0];
-            // 모아놓은 적들중 가장 가까운 친구한테 타겟으로 정함
-            foreach (ChampionData a in controller.enemy)
+            // 메니저에 있는 데이터를 가져와서 팀 구분
+            foreach (ChampionData a in Manager.Game.championDatas)
             {
-                if (a == null)
-                    continue;
-
-                if ((a.gameObject.transform.position - controller.transform.position).magnitude <
-                    (controller.targetEnemy.gameObject.transform.position - controller.transform.position).magnitude)
+                if (controller.data.Team != a.Team)
                 {
+                    controller.Enemy.Add(a);
+                }
+            }
+            // 첫 번째 친구를 지정
+            controller.EnemyPos = controller.Enemy[0].transform;
 
-                    controller.enemyPos = a.transform;
+            // 가까운 적 찾기
+            foreach (ChampionData a in controller.Enemy)
+            {
+                // 처음 지정한 친구와 나머지 다 비교
+                if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) > Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
+                {
+                    // 가장 가까운 적 저장
+                    controller.EnemyPos = a.transform;
                     controller.targetEnemy = a;
+                }
+            }
 
-                }
-            }
-            // 적이 있으면 위치 추적 게임오브젝트에 위치를 가져오고 없으면 가만히 있는 상태로 간다.
-            if (controller.targetEnemy != null)
-            {
-                // 나랑 팀이 아닌 친구 찾기
-                if (Manager.Game.championsdata.ContainsKey(!controller.data.team))
-                {
-                    controller.enemyPos = controller.targetEnemy.transform;
-                }
-            }
+            /* // 적들을 모아놓음 
+             controller.enemy = Manager.Game.championsdata[!controller.data.team];
+
+             controller.targetEnemy = controller.enemy[0];
+             // 모아놓은 적들중 가장 가까운 친구한테 타겟으로 정함
+             foreach (ChampionData a in controller.enemy)
+             {
+                 if (a == null)
+                     continue;
+
+                 if ((a.gameObject.transform.position - controller.transform.position).magnitude <
+                     (controller.targetEnemy.gameObject.transform.position - controller.transform.position).magnitude)
+                 {
+
+                     controller.enemyPos = a.transform;
+                     controller.targetEnemy = a;
+
+                 }
+             }
+             // 적이 있으면 위치 추적 게임오브젝트에 위치를 가져오고 없으면 가만히 있는 상태로 간다.
+             if (controller.targetEnemy != null)
+             {
+                 // 나랑 팀이 아닌 친구 찾기
+                 if (Manager.Game.championsdata.ContainsKey(!controller.data.team))
+                 {
+                     controller.enemyPos = controller.targetEnemy.transform;
+                 }
+             }*/
         }
         public override void Update()
         {
@@ -185,6 +208,7 @@ public class LongChampionController : MonoBehaviour
         public override void Enter()
         {
             controller.data.animator.Play("Move");
+            // 가까운 친구한와 거리 계산
             dir = (controller.enemyPos.position - controller.transform.position).normalized;
 
         }
@@ -343,11 +367,11 @@ public class LongChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Die);
             }
 
-            if (Vector3.Distance(controller.transform.position, startPos) >= 2 && controller.Enemy != null)
+            if (Vector3.Distance(controller.transform.position, startPos) >= 2 && controller.EnemyPos != null)
             {
                 controller.stateMachine.ChangeState(State.Attack);
             }
-            else if (controller.Enemy == null)
+            else if (controller.EnemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }
