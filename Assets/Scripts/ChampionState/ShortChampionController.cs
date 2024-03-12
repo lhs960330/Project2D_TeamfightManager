@@ -22,10 +22,7 @@ public class ShortChampionController : MonoBehaviour
     Transform enemyPos;
     public Transform EnemyPos { get { return enemyPos; } set { enemyPos = value; } }
 
-    private void Awake()
-    {
 
-    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -38,7 +35,7 @@ public class ShortChampionController : MonoBehaviour
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
         Enemy = new List<ChampionData>();
-
+        
     }
 
     private void Update()
@@ -133,11 +130,11 @@ public class ShortChampionController : MonoBehaviour
                 }
             }
 
-            if(controller.data.Team == 0 && Manager.Game.countBteam == 0)
+            if(controller.data.Team == 0 && Manager.Game.countBuleteam == 0)
             {// A팀이며 상대방 팀이 0명
                 controller.stateMachine.ChangeState(State.Idle);
             }
-            else if( controller.data.Team == 1 && Manager.Game.countAteam == 0)
+            else if( controller.data.Team == 1 && Manager.Game.countRedteam == 0)
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }
@@ -160,6 +157,7 @@ public class ShortChampionController : MonoBehaviour
                     controller.targetEnemy = a;
                 }
             }
+
         }
 
 

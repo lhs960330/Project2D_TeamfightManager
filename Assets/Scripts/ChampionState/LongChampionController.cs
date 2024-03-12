@@ -154,11 +154,11 @@ public class LongChampionController : MonoBehaviour
                 }
             }
 
-            if(controller.data.Team == 0 && Manager.Game.countBteam == 0)
+            if(controller.data.Team == 0 && Manager.Game.countBuleteam == 0)
             {// A∆¿¿Ã∏Á ªÛ¥ÎπÊ ∆¿¿Ã 0∏Ì
                 controller.stateMachine.ChangeState(State.Idle);
             }
-            else if( controller.data.Team == 1 && Manager.Game.countAteam == 0)
+            else if( controller.data.Team == 1 && Manager.Game.countRedteam == 0)
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }

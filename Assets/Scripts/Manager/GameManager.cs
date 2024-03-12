@@ -8,8 +8,8 @@ public class GameManager : Singleton<GameManager>
 {
     // 데이터를 들고 있는 챔피언들 관리
     public List<ChampionData> championDatas;
-    public int countAteam;
-    public int countBteam;
+    public int countRedteam;
+    public int countBuleteam;
 
     protected override void Awake()
     {
@@ -25,21 +25,25 @@ public class GameManager : Singleton<GameManager>
         foreach(ChampionData champion in championDatas)
         {
             if (champion.Team == 0)
-                countAteam++;
+                countRedteam++;
             else
-                countBteam++;
+                countBuleteam++;
         }
     }
     private void Update()
     {
     }
 
+    public void ChampionDataProduce()
+    {
+        championDatas = FindObjectsOfType<ChampionData>().ToList();
+    }
     public void RemoveChampion(ChampionData champion)
     {
         if (champion.Team == 0)
-            countAteam--;
+            countRedteam--;
         else
-            countBteam--;
+            countBuleteam--;
         championDatas.Remove(champion);
     }
 }
