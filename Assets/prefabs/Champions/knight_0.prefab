@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 17409896784536454}
   - component: {fileID: 447142995697506604}
   - component: {fileID: 1458423972525169696}
+  - component: {fileID: 7833920000736356479}
+  - component: {fileID: 7344379012679717333}
   m_Layer: 3
   m_Name: knight_0
   m_TagString: Champion
@@ -116,7 +118,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -180,3 +182,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7833920000736356479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8441545666107481999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Team: 1
+  maxHp: 30
+  hp: 0
+  speed: 4
+  range: 3
+  attackTime: 3
+  damage: 2
+  respawn: 5
+  my: {fileID: 4234654039299376738}
+  animator: {fileID: 1458423972525169696}
+--- !u!114 &7344379012679717333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8441545666107481999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc80171dec2ab842977d1d03c89449b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: []
+  data: {fileID: 7833920000736356479}

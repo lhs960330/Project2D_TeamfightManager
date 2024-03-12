@@ -23,15 +23,16 @@ public class ArrowAttack : PooledObject
         // 이 스크립트를 가지고있는 친구에 위치 방향
         arrow = transform.position;
         // 적찾기 위치 방향
-
-        enemy = controller.EnemyPos.position;
+        if (controller != null)
+            enemy = controller.EnemyPos.position;
     }
 
     private void Update()
     {
         // 계속확인 (벡터라서 계속확인해서 화살 방향을 정해줌)
         arrow = transform.position;
-        enemy = controller.EnemyPos.position;
+        if (controller != null)
+            enemy = controller.EnemyPos.position;
         // 잘은 모르지만 적과 화살의 방향의 각도를  삼각함수를 통해 각도를 정해줌
         angle = Mathf.Atan2(enemy.y - arrow.y, enemy.x - arrow.x) * Mathf.Rad2Deg;
         // 화살의 회전값을 적회전값으로 보내줌

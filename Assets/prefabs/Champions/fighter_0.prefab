@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3254253706313356761
 Transform:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -171,7 +171,7 @@ Animator:
   m_GameObject: {fileID: 3675998573341682190}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6bbcb2dd6c243de438fb81914d122de2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -194,15 +194,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 2
+  Team: 0
+  maxHp: 10
   hp: 0
   speed: 4
   range: 3
   attackTime: 3
   damage: 2
-  avoidrange: 0
-  team: 0
-  avoidcool: 0
   respawn: 5
   my: {fileID: 3254253706313356761}
   animator: {fileID: 8548383111743984911}
@@ -218,5 +216,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc80171dec2ab842977d1d03c89449b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  enemy: {fileID: 0}
+  Enemy: []
+  data: {fileID: 6743210326297441018}

@@ -119,7 +119,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -195,15 +195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10000000
-  hp: 0
+  Team: 0
+  maxHp: 10
+  hp: 10
   speed: 4
-  range: 8
+  range: 10
   attackTime: 2
   damage: 3
-  avoidrange: 0
-  team: 0
-  avoidcool: 0
   respawn: 5
   my: {fileID: 9026913363476555640}
   animator: {fileID: 3345839543349677850}
@@ -219,8 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b874342532b01b3439bf22b467252f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enemy: []
   data: {fileID: 2406371186875519803}
-  enemy: {fileID: 0}
   arrowPoint: {fileID: 8801632130277444916}
 --- !u!1 &8950355320317244040
 GameObject:
@@ -267,6 +265,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7110050335148162475, guid: 41557aa6e3bf2a5439f1dff583324bbc, type: 3}
-  size: 2
-  capacity: 2
-  prefab1: {fileID: 7110050335148162475, guid: 41557aa6e3bf2a5439f1dff583324bbc, type: 3}
+  size: 1
+  capacity: 1

@@ -7,20 +7,40 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     // 데이터를 들고 있는 챔피언들 관리
-    public ChampionData[] championDatas;
-   
+    public List<ChampionData> championDatas;
+    public int countAteam;
+    public int countBteam;
+
     protected override void Awake()
     {
         base.Awake();
-        
-        championDatas = new ChampionData[10];
 
+        championDatas = new List<ChampionData>();
     }
 
     public void Start()
     {
         // 모든 챔피언 데이터를 가져옴 
-        championDatas = FindObjectsOfType<ChampionData>();
+        championDatas = FindObjectsOfType<ChampionData>().ToList();
+        foreach(ChampionData champion in championDatas)
+        {
+            if (champion.Team == 0)
+                countAteam++;
+            else
+                countBteam++;
+        }
+    }
+    private void Update()
+    {
+    }
+
+    public void RemoveChampion(ChampionData champion)
+    {
+        if (champion.Team == 0)
+            countAteam--;
+        else
+            countBteam--;
+        championDatas.Remove(champion);
     }
 }
 

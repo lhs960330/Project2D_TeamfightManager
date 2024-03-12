@@ -5,6 +5,24 @@ public class StateMachine<T> where T : Enum
 {
     private Dictionary<T, BaseState<T>> stateDic = new Dictionary<T, BaseState<T>>();
     private BaseState<T> curState;
+    public BaseState<T> CurState { get { return curState; } }
+    // 현재 상태를 알기위해 만듬
+    public bool CheckState(T state)
+    {
+        if (curState == stateDic[state])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void GetCurState(BaseState<T> curState)
+    {
+        curState = this.curState;
+    }
 
     public void Start(T startState)
     {

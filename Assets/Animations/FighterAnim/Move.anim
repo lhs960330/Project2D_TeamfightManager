@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack
+  m_Name: Move
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,17 +21,21 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 7fa362301002fb142a6c8c2d2c5152f0, type: 3}
+      value: {fileID: 21300000, guid: 56646951958633644b53e20aabc72246, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 8fa8b5b94a96f98419b66a551d618a84, type: 3}
+      value: {fileID: 21300000, guid: 1215de9d04d5df34ab22ffb40b2dfcec, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: ebc7b8eb57e7293409bc4a8b68a5287a, type: 3}
+      value: {fileID: 21300000, guid: 3a206de72ac7b214899af4c0021e29c0, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: f459e8f7a705a814888beb07b64f9717, type: 3}
+      value: {fileID: 21300000, guid: 0ea0d4f1983ebaf47b1ddbf0368fe121, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: c4c406a4fca5b314996cf146a5bd69f6, type: 3}
+      value: {fileID: 21300000, guid: e267d6d38ba6e05478242a6a014d72cc, type: 3}
     - time: 0.41666666
-      value: {fileID: 21300000, guid: 1aba5f78fff4d9249b0cafaf1c9cc554, type: 3}
+      value: {fileID: 21300000, guid: f3a3df178684c41419eabdaeb0f284b6, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 8b70a068b10f22545b289b133c575b0e, type: 3}
+    - time: 0.5833333
+      value: {fileID: 21300000, guid: 6f4ef80c0bb2f0745a4a18bc581587a0, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,18 +58,20 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 7fa362301002fb142a6c8c2d2c5152f0, type: 3}
-    - {fileID: 21300000, guid: 8fa8b5b94a96f98419b66a551d618a84, type: 3}
-    - {fileID: 21300000, guid: ebc7b8eb57e7293409bc4a8b68a5287a, type: 3}
-    - {fileID: 21300000, guid: f459e8f7a705a814888beb07b64f9717, type: 3}
-    - {fileID: 21300000, guid: c4c406a4fca5b314996cf146a5bd69f6, type: 3}
-    - {fileID: 21300000, guid: 1aba5f78fff4d9249b0cafaf1c9cc554, type: 3}
+    - {fileID: 21300000, guid: 56646951958633644b53e20aabc72246, type: 3}
+    - {fileID: 21300000, guid: 1215de9d04d5df34ab22ffb40b2dfcec, type: 3}
+    - {fileID: 21300000, guid: 3a206de72ac7b214899af4c0021e29c0, type: 3}
+    - {fileID: 21300000, guid: 0ea0d4f1983ebaf47b1ddbf0368fe121, type: 3}
+    - {fileID: 21300000, guid: e267d6d38ba6e05478242a6a014d72cc, type: 3}
+    - {fileID: 21300000, guid: f3a3df178684c41419eabdaeb0f284b6, type: 3}
+    - {fileID: 21300000, guid: 8b70a068b10f22545b289b133c575b0e, type: 3}
+    - {fileID: 21300000, guid: 6f4ef80c0bb2f0745a4a18bc581587a0, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.6666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -84,11 +90,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.41666666
-    functionName: HitDamag
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

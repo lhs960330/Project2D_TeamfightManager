@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 
 public class LongChampionController : MonoBehaviour
@@ -22,12 +21,13 @@ public class LongChampionController : MonoBehaviour
     [SerializeField] arrowSpawn arrowPoint;
     public arrowSpawn ArrowPoint { get { return arrowPoint; } set { arrowPoint = value; } }
     ChampionData targetEnemy;
-    public ChampionData TargetEnemy { get {  return targetEnemy; } set {  targetEnemy = value; } }
+    public ChampionData TargetEnemy { get { return targetEnemy; } set { targetEnemy = value; } }
     // 적의 위치를 가져온다.
     Transform enemyPos;
     public Transform EnemyPos { get { return enemyPos; } set { enemyPos = value; } }
 
-
+    private bool isAttack;
+    public bool IsAttack { get { return isAttack; } }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -51,28 +51,49 @@ public class LongChampionController : MonoBehaviour
     public void Attack()
     {
         // 어택 코루틴을 사용하기 위해 만듬
-        attackRouine = StartCoroutine(AttackRoutine());
+        if (attackRouine == null)
+        {
+            attackRouine = StartCoroutine(AttackRoutine());
+            Debug.Log("원거리 공격");
+        }
     }
     public void StopAttack()
     {
         // 끝나면 멈추게 해줌
-        if(attackRouine != null)
+        if (attackRouine != null)
+        {
             StopCoroutine(attackRouine);
+            Debug.Log("원거리 공격멈춤");
+        }
     }
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
         while (EnemyPos)
         {
-            // 어택 애니메이션을 실행해줌
-            data.animator.Play("Attack");
-            arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
-            // 어택될때마다 체력이 깍임
-            enemyPos.GetComponent<ChampionData>().hp -= data.damage;
-            // 각 어택마다 시간을 줌
-            yield return new WaitForSeconds(data.attackTime);
+            if (stateMachine.CheckState(State.Attack))
+            {
+                isAttack = false;
+                // 어택 애니메이션을 실행해줌
+                data.animator.Play("Attack");
+                arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
+                /*            // 어택될때마다 체력이 깍임
+                            enemyPos.GetComponent<ChampionData>().hp -= data.damage;*/
+                // 각 어택마다 시간을 줌
+                yield return new WaitForSeconds(data.attackTime);
+                isAttack = true;
+                yield return new WaitForSeconds(0.1f);
+            }
+            else
+            {
+                yield return null;
+            }
         }
 
+    }
+    public void HitDamag()
+    {
+        enemyPos.GetComponent<ChampionData>().hp -= data.damage;
     }
 
     private class ChampionState : BaseState<State>
@@ -105,7 +126,6 @@ public class LongChampionController : MonoBehaviour
         public override void Enter()
         {
             controller.data.animator.Play("Idle");
-
         }
         public override void Transition()
         {
@@ -133,14 +153,35 @@ public class LongChampionController : MonoBehaviour
                     controller.Enemy.Add(a);
                 }
             }
-            // 첫 번째 친구를 지정
-            controller.EnemyPos = controller.Enemy[0].transform;
 
+            if(controller.data.Team == 0 && Manager.Game.countBteam == 0)
+            {// A팀이며 상대방 팀이 0명
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            else if( controller.data.Team == 1 && Manager.Game.countAteam == 0)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            else
+            {
+                controller.EnemyPos = controller.Enemy[0].transform;
+                controller.targetEnemy = controller.Enemy[0];
+            }
+            
+
+            // 첫 번째 친구를 지정
+            // 이래도 없으면 계속 대기
+            if (controller.EnemyPos == null)
+                controller.stateMachine.ChangeState(State.Idle);
             // 가까운 적 찾기
             foreach (ChampionData a in controller.Enemy)
             {
+                if (controller.EnemyPos == null)
+                    return;
+                if (a == null)
+                    return;
                 // 처음 지정한 친구와 나머지 다 비교
-                if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) > Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
+                if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) >= Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
                 {
                     // 가장 가까운 적 저장
                     controller.EnemyPos = a.transform;
@@ -148,34 +189,6 @@ public class LongChampionController : MonoBehaviour
                 }
             }
 
-            /* // 적들을 모아놓음 
-             controller.enemy = Manager.Game.championsdata[!controller.data.team];
-
-             controller.targetEnemy = controller.enemy[0];
-             // 모아놓은 적들중 가장 가까운 친구한테 타겟으로 정함
-             foreach (ChampionData a in controller.enemy)
-             {
-                 if (a == null)
-                     continue;
-
-                 if ((a.gameObject.transform.position - controller.transform.position).magnitude <
-                     (controller.targetEnemy.gameObject.transform.position - controller.transform.position).magnitude)
-                 {
-
-                     controller.enemyPos = a.transform;
-                     controller.targetEnemy = a;
-
-                 }
-             }
-             // 적이 있으면 위치 추적 게임오브젝트에 위치를 가져오고 없으면 가만히 있는 상태로 간다.
-             if (controller.targetEnemy != null)
-             {
-                 // 나랑 팀이 아닌 친구 찾기
-                 if (Manager.Game.championsdata.ContainsKey(!controller.data.team))
-                 {
-                     controller.enemyPos = controller.targetEnemy.transform;
-                 }
-             }*/
         }
         public override void Update()
         {
@@ -190,14 +203,18 @@ public class LongChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Die);
             }
             // 적의 위치가 있으면 이동상태로 변환 그 이외에는 가만히있는 상태
-            if (controller.enemyPos != null)
+            if (controller.TargetEnemy == null)
             {
-                controller.stateMachine.ChangeState(State.Move);
+                controller.stateMachine.ChangeState(State.Idle);
+
             }
             else
             {
-                controller.stateMachine.ChangeState(State.Idle);
+                controller.stateMachine.ChangeState(State.Move);
             }
+        }
+        public override void Exit()
+        {
         }
     }
     private class MoveState : ChampionState
@@ -235,11 +252,15 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-
+            if (controller.enemyPos == null)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
+            }
             // 사거리안에 들어왔을때 공격으로
             if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
                 controller.stateMachine.ChangeState(State.Attack);
+                Debug.Log("공격하러감");
             }
         }
     }
@@ -274,15 +295,11 @@ public class LongChampionController : MonoBehaviour
             }
             // 코루틴이 실행됐을때 화살이 적에게 날아감
             controller.Attack();
-            // 한대치고 도망갈 쿨타임
-            controller.data.avoidcool = 0;
-
-
         }
         public override void Update()
         {
-            // 시간으로 기록
-            controller.data.avoidcool += Time.deltaTime;
+            /* // 시간으로 기록
+             controller.data.avoidcool += Time.deltaTime;*/
         }
 
         public override void Transition()
@@ -295,25 +312,24 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }
-            // 떨어졌을때 안떄리기
-            else if (controller.enemyPos != null)
+            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) >= controller.data.range)
             {
-                if (controller.targetEnemy == true && Vector3.Distance(controller.enemyPos.position, controller.transform.position) >= controller.data.range)
-                {
-                    controller.stateMachine.ChangeState(State.Idle);
-                }
-                // 상대방과 내 거리가 회피거리안에 들어오고 한대때리고 떄린 시간만큼 기다렸다가 도망 회피상태로 바꿔줌
-                if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range
-                    && controller.data.avoidcool > controller.data.attackTime)
-                {
-                    controller.stateMachine.ChangeState(State.Avoid);
-                }
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            // 상대방과 내 거리가 회피거리안에 들어오고 한대때리고 떄린 시간만큼 기다렸다가 도망 회피상태로 바꿔줌
+            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= 3f && controller.IsAttack)
+            {
+                Debug.Log("회피");
+                controller.stateMachine.ChangeState(State.Avoid);
             }
 
         }
         public override void Exit()
         {
-            controller.StopAttack();
+            if (controller.Enemy == null)
+            {
+                controller.StopAttack();
+            }
         }
     }
     //회피가동
@@ -358,6 +374,10 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
             }
+            if (controller.Enemy == null)
+            {
+                controller.StopAttack();
+            }
         }
 
         public override void Transition()
@@ -366,8 +386,11 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-
-            if (Vector3.Distance(controller.transform.position, startPos) >= 2 && controller.EnemyPos != null)
+            if (controller.EnemyPos == null)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            if (Vector3.Distance(controller.transform.position, startPos) >= 2)
             {
                 controller.stateMachine.ChangeState(State.Attack);
             }
@@ -376,6 +399,7 @@ public class LongChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Idle);
             }
         }
+
     }
     // 죽을때
     private class DieState : ChampionState
@@ -387,6 +411,7 @@ public class LongChampionController : MonoBehaviour
         {
             // 죽인다.
             controller.data.animator.Play("Die");
+            Manager.Game.RemoveChampion(this.controller.data);
             Destroy(controller.gameObject, 1f);
         }
 

@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
 
     protected Stack<PooledObject> objectPool;
 
-    public virtual void CreatePool(PooledObject prefab, int size, int capacity)
+    public void CreatePool(PooledObject prefab, int size, int capacity)
     {
         this.prefab = prefab;
         this.size = size;
@@ -27,7 +27,7 @@ public class ObjectPool : MonoBehaviour
     }
    
 
-    public virtual PooledObject GetPool(Vector3 position, Quaternion rotation)
+    public PooledObject GetPool(Vector3 position, Quaternion rotation)
     {
         if (objectPool.Count > 0)
         {
@@ -47,7 +47,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    public virtual void ReturnPool(PooledObject instance)
+    public void ReturnPool(PooledObject instance)
     {
         if (objectPool.Count < capacity)
         {

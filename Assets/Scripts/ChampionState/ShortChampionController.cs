@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.SceneManagement;
 
 public class ShortChampionController : MonoBehaviour
 {
+    // 적들을 모아둠
+    public List<ChampionData> Enemy;
     // 상태들 모아둠
     public enum State { Idle, Find, Move, Attack, Die }
 
@@ -16,12 +16,16 @@ public class ShortChampionController : MonoBehaviour
     // 각 챔피언에 스택이 담긴 클래스를 가져옴 
     [SerializeField] ChampionData data;
     public ChampionData Data { get { return data; } set { data = value; } }
+    ChampionData targetEnemy;
+    public ChampionData TargetEnemy { get { return targetEnemy; } set { targetEnemy = value; } }
+    // 적의 위치를 가져온다.
+    Transform enemyPos;
+    public Transform EnemyPos { get { return enemyPos; } set { enemyPos = value; } }
 
-    // 상대방에 게임오브젝트를 가져옴
-    [SerializeField] GameObject enemy;
-    public GameObject Enemy { get { return enemy; } set { enemy = value; } }
+    private void Awake()
+    {
 
-
+    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -33,6 +37,8 @@ public class ShortChampionController : MonoBehaviour
 
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
+        Enemy = new List<ChampionData>();
+
     }
 
     private void Update()
@@ -42,42 +48,52 @@ public class ShortChampionController : MonoBehaviour
     }
     public void Attack()
     {
+
         // 어택 코루틴을 사용하기 위해 만듬
-        attackRouine = StartCoroutine(AttackRoutine());
+        if (attackRouine == null)
+        {
+            attackRouine = StartCoroutine(AttackRoutine());
+        }
     }
+
     public void StopAttack()
     {
+        Debug.Log("공격 중지");
         // 끝나면 멈추게 해줌
-        if(attackRouine !=  null)
-        StopCoroutine(attackRouine);
+        if (attackRouine != null)
+            StopCoroutine(attackRouine);
     }
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
-        while (Enemy.gameObject)
+        while (EnemyPos)
         {
-            
-            // 어택될떄마다 체력이 깍임
-            Enemy.GetComponent<ChampionData>().hp -= data.damage;
-            // 각 어택마다 시간을 줌
-            yield return new WaitForSeconds(data.attackTime);
-
+            // 현재상태가 어택일때만 코루틴을 사용
+            if (stateMachine.CheckState(State.Attack))
+            {
+                data.animator.Play("Attack");
+                yield return new WaitForSeconds(data.attackTime);
+            }
+            else
+            {
+                yield return null;
+            }
         }
+    }
+    public void HitDamag()
+    {
+        targetEnemy.hp -= data.damage;
     }
     private class ChampionState : BaseState<State>
     {
 
         protected ShortChampionController controller;
-        // 적의 위치를 가져온다.
-        protected Transform enemyPos;
-
         protected Vector3 dir;
 
         // 여기서 초기화
         public ChampionState(ShortChampionController owner)
         {
             this.controller = owner;
-            enemyPos = owner.Enemy.transform;
         }
     }
     // 가만히있는 상태
@@ -108,14 +124,41 @@ public class ShortChampionController : MonoBehaviour
 
         public override void Enter()
         {
-            // 적이 있으면 위치 추적 게임오브젝트에 위치를 가져오고 없으면 가만히 있는 상태로 간다.
-            if (controller.Enemy == true)
+            // 메니저에 있는 데이터를 가져와서 팀 구분
+            foreach (ChampionData a in Manager.Game.championDatas)
             {
-                enemyPos = controller.Enemy.transform;
+                if (controller.data.Team != a.Team)
+                {
+                    controller.Enemy.Add(a);
+                }
+            }
+
+            if(controller.data.Team == 0 && Manager.Game.countBteam == 0)
+            {// A팀이며 상대방 팀이 0명
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            else if( controller.data.Team == 1 && Manager.Game.countAteam == 0)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
             }
             else
             {
-                controller.stateMachine.ChangeState(State.Idle);
+                controller.EnemyPos = controller.Enemy[0].transform;
+                controller.targetEnemy = controller.Enemy[0];
+            }
+            // 가까운 적 찾기
+            foreach (ChampionData a in controller.Enemy)
+            {
+                if (a == null)
+                    return;
+
+                // 처음 지정한 친구와 나머지 다 비교
+                if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) >= Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
+                {
+                    // 가장 가까운 적 저장
+                    controller.EnemyPos = a.transform;
+                    controller.targetEnemy = a;
+                }
             }
         }
 
@@ -128,15 +171,18 @@ public class ShortChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Die);
             }
             // 적의 위치가 있으면 이동상태로 변환 그 이외에는 가만히있는 상태
-            if (enemyPos != null)
+            if (controller.TargetEnemy == null)
             {
-                controller.stateMachine.ChangeState(State.Move);
+                controller.stateMachine.ChangeState(State.Idle);
+
             }
             else
             {
-                controller.stateMachine.ChangeState(State.Idle);
+                controller.stateMachine.ChangeState(State.Move);
             }
-
+        }
+        public override void Exit()
+        {
         }
     }
     private class MoveState : ChampionState
@@ -147,7 +193,7 @@ public class ShortChampionController : MonoBehaviour
         public override void Enter()
         {
             controller.data.animator.Play("Move");
-            dir = (enemyPos.position - controller.transform.position).normalized;
+            dir = (controller.enemyPos.position - controller.transform.position).normalized;
         }
 
         public override void Update()
@@ -158,6 +204,7 @@ public class ShortChampionController : MonoBehaviour
                 controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
 
             }
+
             else if (dir.x > 0)
             {
                 controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -173,10 +220,23 @@ public class ShortChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
+            // 적이 사라졋을때(죽었을때)
+            if (controller.EnemyPos == null)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
+
+            }
             // 사거리안에 들어왔을때 공격으로
-            if (Vector3.Distance(enemyPos.position, controller.transform.position) <= controller.data.range)
+            if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
                 controller.stateMachine.ChangeState(State.Attack);
+            }
+        }
+        public override void Exit()
+        {
+            if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
+            {
+                controller.data.animator.Play("Idle");
             }
         }
     }
@@ -189,28 +249,31 @@ public class ShortChampionController : MonoBehaviour
         // 때리는 액션
         public override void Enter()
         {
-            // 어택 애니메이션을 실행해줌
-            // 애니메이션 이벤트를 통해 어택 코루틴 실행
-            controller.data.animator.Play("Attack");
+            // 어택 코루틴 시작
+            controller.Attack();
         }
         public override void Transition()
         {
             if (controller.data.hp <= 0)
             {
-
                 controller.stateMachine.ChangeState(State.Die);
             }
-
-            // 떨어졌을때 안떄리기
-            if (controller.Enemy == true && Vector3.Distance(enemyPos.position, controller.transform.position) >= controller.data.range)
+            if (controller.EnemyPos == null)
             {
-
+                controller.stateMachine.ChangeState(State.Idle);
+            }
+            // 떨어졌을때 안떄리기
+            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) >= controller.data.range)
+            {
                 controller.stateMachine.ChangeState(State.Idle);
             }
         }
         public override void Exit()
         {
-            controller.StopAttack();
+            if (controller.Enemy == null)
+            {
+                controller.StopAttack();
+            }
         }
     }
 
@@ -224,10 +287,9 @@ public class ShortChampionController : MonoBehaviour
         {
             // 죽인다.
             controller.data.animator.Play("Die");
+            Manager.Game.RemoveChampion(this.controller.data);
             Destroy(controller.gameObject, 1f);
         }
 
     }
-
-
 }
