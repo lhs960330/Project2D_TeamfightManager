@@ -7,7 +7,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] protected PooledObject prefab;
     [SerializeField] protected int size;
     [SerializeField] protected int capacity;
-     protected Stack<PooledObject> objectPool;
+    protected Stack<PooledObject> objectPool;
 
     public void CreatePool(PooledObject prefab, int size, int capacity)
     {
@@ -31,7 +31,16 @@ public class ObjectPool : MonoBehaviour
     {
         if (objectPool.Count > 0)
         {
+            re:
             PooledObject instance = objectPool.Pop();
+            if(instance == null)
+            {
+                instance = objectPool.Pop();
+                objectPool.Push(Instantiate(prefab));
+            }
+            if (instance == null)
+                goto re;
+
             instance.transform.position = position;
             instance.transform.rotation = rotation;
             instance.gameObject.SetActive(true);

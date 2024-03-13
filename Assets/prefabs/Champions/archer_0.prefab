@@ -265,5 +265,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7110050335148162475, guid: 41557aa6e3bf2a5439f1dff583324bbc, type: 3}
-  size: 1
-  capacity: 1
+  size: 3
+  capacity: 3

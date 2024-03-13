@@ -75,9 +75,6 @@ public class LongChampionController : MonoBehaviour
                 // 어택 애니메이션을 실행해줌
                 data.animator.Play("Attack");
                 arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
-                /*            // 어택될때마다 체력이 깍임
-                            enemyPos.GetComponent<ChampionData>().hp -= data.damage;*/
-                // 각 어택마다 시간을 줌
                 yield return new WaitForSeconds(data.attackTime);
                 isAttack = true;
                 yield return new WaitForSeconds(0.1f);
@@ -242,12 +239,13 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-            if (controller.enemyPos == null)
+            else if (controller.enemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
+
             }
             // 사거리안에 들어왔을때 공격으로
-            if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
+            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
                 controller.stateMachine.ChangeState(State.Attack);
             }

@@ -140,6 +140,11 @@ public class ShortChampionController : MonoBehaviour
             }
             else
             {
+                if (controller.Enemy[0] == null)
+                {
+                    controller.Enemy.RemoveAt(0);
+                    return;
+                }
                 controller.EnemyPos = controller.Enemy[0].transform;
                 controller.targetEnemy = controller.Enemy[0];
             }
@@ -151,6 +156,7 @@ public class ShortChampionController : MonoBehaviour
                 if (a == null)
                 {
                     controller.Enemy.Remove(a);
+                    return;
                 }
 
                 // 처음 지정한 친구와 나머지 다 비교
@@ -216,11 +222,13 @@ public class ShortChampionController : MonoBehaviour
             if (controller.data.hp <= 0)
             {
                 controller.stateMachine.ChangeState(State.Die);
+                return;
             }
             // 적이 사라졋을때(죽었을때)
             if (controller.targetEnemy == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
+                return;
             }
             // 사거리안에 들어왔을때 공격으로
             if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
@@ -230,13 +238,9 @@ public class ShortChampionController : MonoBehaviour
         }
         public override void Exit()
         {
-            if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
+            if (controller.targetEnemy == null)
             {
-                controller.data.animator.Play("Idle");
-            }
-            if(controller.targetEnemy == null)
-            {
-                controller.Enemy.Remove(controller.targetEnemy);
+                controller.Enemy.RemoveAt(0);
             }
         }
     }
@@ -258,7 +262,7 @@ public class ShortChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-            if (controller.EnemyPos == null)
+            else if (controller.EnemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }
@@ -273,9 +277,6 @@ public class ShortChampionController : MonoBehaviour
             if (controller.Enemy == null)
             {
                 controller.StopAttack();
-            }
-            if (controller.targetEnemy == null)
-            {
                 controller.Enemy.Remove(controller.targetEnemy);
             }
         }
