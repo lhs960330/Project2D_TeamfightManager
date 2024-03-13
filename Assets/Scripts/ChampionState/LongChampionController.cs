@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 
 public class LongChampionController : MonoBehaviour
 {
     // 적들을 모아둠
-    public List<ChampionData> Enemy;
+    public List<ChampionData> Enemy = new List<ChampionData>();
     // 상태들 모아둠
     public enum State { Idle, Find, Move, Attack, Avoid, Die }
 
@@ -39,7 +40,6 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Die, new DieState(this));
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
-        Enemy = new List<ChampionData>();
 
     }
 
@@ -54,7 +54,6 @@ public class LongChampionController : MonoBehaviour
         if (attackRouine == null)
         {
             attackRouine = StartCoroutine(AttackRoutine());
-            Debug.Log("원거리 공격");
         }
     }
     public void StopAttack()
@@ -63,7 +62,6 @@ public class LongChampionController : MonoBehaviour
         if (attackRouine != null)
         {
             StopCoroutine(attackRouine);
-            Debug.Log("원거리 공격멈춤");
         }
     }
     Coroutine attackRouine;
@@ -150,15 +148,17 @@ public class LongChampionController : MonoBehaviour
             {
                 if (controller.data.Team != a.Team)
                 {
+                    if (controller.Enemy.Contains(a))
+                        continue;
                     controller.Enemy.Add(a);
                 }
             }
 
-            if(controller.data.Team == 0 && Manager.Game.countBuleteam == 0)
+            if (controller.data.Team == 0 && Manager.Game.countBuleteam == 0)
             {// A팀이며 상대방 팀이 0명
                 controller.stateMachine.ChangeState(State.Idle);
             }
-            else if( controller.data.Team == 1 && Manager.Game.countRedteam == 0)
+            else if (controller.data.Team == 1 && Manager.Game.countRedteam == 0)
             {
                 controller.stateMachine.ChangeState(State.Idle);
             }
@@ -167,9 +167,6 @@ public class LongChampionController : MonoBehaviour
                 controller.EnemyPos = controller.Enemy[0].transform;
                 controller.targetEnemy = controller.Enemy[0];
             }
-            
-
-            // 첫 번째 친구를 지정
             // 이래도 없으면 계속 대기
             if (controller.EnemyPos == null)
                 controller.stateMachine.ChangeState(State.Idle);
@@ -177,9 +174,11 @@ public class LongChampionController : MonoBehaviour
             foreach (ChampionData a in controller.Enemy)
             {
                 if (controller.EnemyPos == null)
-                    return;
+                    continue;
                 if (a == null)
-                    return;
+                {
+                    controller.Enemy.Remove(a);
+                }
                 // 처음 지정한 친구와 나머지 다 비교
                 if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) >= Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
                 {
@@ -188,15 +187,9 @@ public class LongChampionController : MonoBehaviour
                     controller.targetEnemy = a;
                 }
             }
-
-        }
-        public override void Update()
-        {
-
         }
         public override void Transition()
         {
-
             // 뒤졌을때
             if (controller.data.hp <= 0)
             {
@@ -206,16 +199,13 @@ public class LongChampionController : MonoBehaviour
             if (controller.TargetEnemy == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
-
             }
             else
             {
                 controller.stateMachine.ChangeState(State.Move);
             }
         }
-        public override void Exit()
-        {
-        }
+
     }
     private class MoveState : ChampionState
     {
@@ -260,7 +250,13 @@ public class LongChampionController : MonoBehaviour
             if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
                 controller.stateMachine.ChangeState(State.Attack);
-                Debug.Log("공격하러감");
+            }
+        }
+        public override void Exit()
+        {
+            if (controller.targetEnemy == null)
+            {
+                controller.Enemy.Remove(controller.targetEnemy);
             }
         }
     }
@@ -296,12 +292,6 @@ public class LongChampionController : MonoBehaviour
             // 코루틴이 실행됐을때 화살이 적에게 날아감
             controller.Attack();
         }
-        public override void Update()
-        {
-            /* // 시간으로 기록
-             controller.data.avoidcool += Time.deltaTime;*/
-        }
-
         public override void Transition()
         {
             if (controller.data.hp <= 0)
@@ -319,7 +309,6 @@ public class LongChampionController : MonoBehaviour
             // 상대방과 내 거리가 회피거리안에 들어오고 한대때리고 떄린 시간만큼 기다렸다가 도망 회피상태로 바꿔줌
             else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= 3f && controller.IsAttack)
             {
-                Debug.Log("회피");
                 controller.stateMachine.ChangeState(State.Avoid);
             }
 
@@ -329,6 +318,10 @@ public class LongChampionController : MonoBehaviour
             if (controller.Enemy == null)
             {
                 controller.StopAttack();
+            }
+            if (controller.targetEnemy == null)
+            {
+                controller.Enemy.Remove(controller.targetEnemy);
             }
         }
     }
@@ -363,22 +356,7 @@ public class LongChampionController : MonoBehaviour
             }
             curnt = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
         }
-        public override void Exit()
-        {
-            // 도망이 끝난후에 현재 보는 방향의 반대방향을 잡아준다
-            if (curnt == true)
-            {
-                controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            }
-            else
-            {
-                controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            }
-            if (controller.Enemy == null)
-            {
-                controller.StopAttack();
-            }
-        }
+
 
         public override void Transition()
         {
@@ -399,20 +377,40 @@ public class LongChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Idle);
             }
         }
-
+        public override void Exit()
+        {
+            // 도망이 끝난후에 현재 보는 방향의 반대방향을 잡아준다
+            if (curnt == true)
+            {
+                controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            if (controller.Enemy == null)
+            {
+                controller.StopAttack();
+                controller.Enemy.Remove(controller.targetEnemy);
+            }
+        }
     }
     // 죽을때
     private class DieState : ChampionState
     {
+        bool isDie = true;
         public DieState(LongChampionController owner) : base(owner)
         {
         }
         public override void Enter()
         {
-            // 죽인다.
-            controller.data.animator.Play("Die");
-            Manager.Game.RemoveChampion(this.controller.data);
-            Destroy(controller.gameObject, 1f);
+            if (isDie)
+            {
+                isDie = false;
+                controller.data.animator.Play("Die");
+                Manager.Game.RemoveChampion(this.controller.data);
+                Destroy(controller.gameObject, 1f);
+            }
         }
 
     }

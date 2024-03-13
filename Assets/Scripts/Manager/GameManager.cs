@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
     {
         // 모든 챔피언 데이터를 가져옴 
         championDatas = FindObjectsOfType<ChampionData>().ToList();
-        foreach(ChampionData champion in championDatas)
+        foreach (ChampionData champion in championDatas)
         {
             if (champion.Team == 0)
                 countRedteam++;
@@ -30,13 +30,14 @@ public class GameManager : Singleton<GameManager>
                 countBuleteam++;
         }
     }
-    private void Update()
+    public void ChampionDataProduce(ChampionData cham)
     {
-    }
+            if (cham.Team == 0)
+                countRedteam++;
+            else
+                countBuleteam++;
 
-    public void ChampionDataProduce()
-    {
-        championDatas = FindObjectsOfType<ChampionData>().ToList();
+        championDatas.Add(cham);
     }
     public void RemoveChampion(ChampionData champion)
     {
@@ -45,6 +46,7 @@ public class GameManager : Singleton<GameManager>
         else
             countBuleteam--;
         championDatas.Remove(champion);
+
     }
 }
 

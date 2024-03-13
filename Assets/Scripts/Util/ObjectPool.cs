@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] protected PooledObject prefab;
     [SerializeField] protected int size;
     [SerializeField] protected int capacity;
-
-    protected Stack<PooledObject> objectPool;
+     protected Stack<PooledObject> objectPool;
 
     public void CreatePool(PooledObject prefab, int size, int capacity)
     {
@@ -25,7 +25,7 @@ public class ObjectPool : MonoBehaviour
             objectPool.Push(instance);
         }
     }
-   
+
 
     public PooledObject GetPool(Vector3 position, Quaternion rotation)
     {
