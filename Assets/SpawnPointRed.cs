@@ -8,7 +8,6 @@ public class SpawnPointRed : MonoBehaviour
 {
     [SerializeField] List<ChampionData> prefabs;
     int red = 0;
-    int count = 2;
     private void Awake()
     {
         foreach (var prefab in prefabs)

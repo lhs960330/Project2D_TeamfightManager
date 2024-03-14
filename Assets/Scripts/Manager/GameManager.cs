@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager>
         championDatas = new List<ChampionData>();
     }
 
-    public void Start()
+    public void SetData()
     {
         // 모든 챔피언 데이터를 가져옴 
         championDatas = FindObjectsOfType<ChampionData>().ToList();

@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 public class ShortChampionController : MonoBehaviour
-{
+{ 
     // 적들을 모아둠
     public List<ChampionData> Enemy = new List<ChampionData>();
     // 상태들 모아둠

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -17,6 +18,7 @@ public class LongChampionController : MonoBehaviour
 
     // 각 챔피언에 스택이 담긴 클래스를 가져옴 
     [SerializeField] ChampionData data;
+    [SerializeField] LayerMask wallLayer;
 
     // 에로우 포인트를 가져옴
     [SerializeField] arrowSpawn arrowPoint;
@@ -48,6 +50,12 @@ public class LongChampionController : MonoBehaviour
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+    }
+
     public void Attack()
     {
         // 어택 코루틴을 사용하기 위해 만듬
@@ -327,31 +335,60 @@ public class LongChampionController : MonoBehaviour
     private class AvoidState : ChampionState
     {
         bool curnt;
+        RaycastHit2D hit;
+        Vector3 hitDir;
         public AvoidState(LongChampionController owner) : base(owner)
         {
         }
         public override void Enter()
         {
+
             controller.data.animator.Play("Move");
             startPos = controller.transform.position;
-            dir = (controller.enemyPos.position - controller.transform.position).normalized;
+            dir = (controller.enemyPos.position - startPos).normalized;
+            hit = Physics2D.Raycast(startPos, -dir, 3f, controller.wallLayer);
+            if (hit)
+            {
+                hitDir = ((Vector3)hit.point - controller.transform.position).normalized;
+            }
+            /* if (hit != true)
+                 return;
+             Debug.Log(hit.collider.name);*/
         }
         public override void Update()
         {
             //반대로 이동 (얼마나?)
-            controller.transform.Translate(-dir * controller.data.speed * Time.deltaTime);
+            if (hit)
+            {
+                Vector3 perpendicular = new Vector3(hitDir.y, -hitDir.x, hitDir.z);
+                perpendicular.Normalize();
+                controller.transform.Translate(perpendicular * controller.data.speed * Time.deltaTime);
+                if (perpendicular.x < 0)
+                {
+                    controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
 
+                }
+                else if (perpendicular.x > 0)
+                {
+                    controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                }
+            }
+            else
+            {
+                controller.transform.Translate(-dir * controller.data.speed * Time.deltaTime);
+                if (-dir.x < 0)
+                {
+                    controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+
+                }
+                else if (-dir.x > 0)
+                {
+                    controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                }
+            }
             // 나와 적 사이에 x가 0보다 작으면 왼쪽을 보고 크면 오른쪽보게한다.
             // 여기선 그 반대쪽으로 가야되니 -해준다.
-            if (-dir.x < 0)
-            {
-                controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
-
-            }
-            else if (-dir.x > 0)
-            {
-                controller.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            }
+           
             curnt = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
         }
 
