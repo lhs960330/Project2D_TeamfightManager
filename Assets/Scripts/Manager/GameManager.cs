@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEngine;
 
 // 얘가 게임에 필요한 스크립트(데이터)를 관리한다?
 public class GameManager : Singleton<GameManager>

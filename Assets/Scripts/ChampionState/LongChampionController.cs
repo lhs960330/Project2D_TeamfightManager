@@ -1,9 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 
 public class LongChampionController : MonoBehaviour
@@ -15,9 +13,11 @@ public class LongChampionController : MonoBehaviour
 
     // 상태들 저장할 상태머신을 가져옴
     private StateMachine<State> stateMachine = new StateMachine<State>();
+    public StateMachine<State> StateMachine {  get { return stateMachine; } }
 
     // 각 챔피언에 스택이 담긴 클래스를 가져옴 
     [SerializeField] ChampionData data;
+    public ChampionData Data { get {  return data; } }
     [SerializeField] LayerMask wallLayer;
 
     // 에로우 포인트를 가져옴
@@ -75,14 +75,21 @@ public class LongChampionController : MonoBehaviour
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
+        int loop = 0;
         while (EnemyPos)
         {
+            loop++;
+            if (loop > 10000)
+                throw new InvalidOperationException("A");
+
             if (stateMachine.CheckState(State.Attack))
             {
                 isAttack = false;
                 // 어택 애니메이션을 실행해줌
                 data.animator.Play("Attack");
-                arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
+                
+                PooledObject pooledObject = arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
+                Debug.Log($"{pooledObject.name} 소환 및 공격 대기");
                 yield return new WaitForSeconds(data.attackTime);
                 isAttack = true;
                 yield return new WaitForSeconds(0.1f);
@@ -441,6 +448,7 @@ public class LongChampionController : MonoBehaviour
         {
             if (isDie)
             {
+                controller.StopAttack();
                 isDie = false;
                 controller.data.animator.Play("Die");
                 Manager.Game.RemoveChampion(this.controller.data);

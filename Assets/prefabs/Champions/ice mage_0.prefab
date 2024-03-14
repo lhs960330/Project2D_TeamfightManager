@@ -219,6 +219,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemy: []
   data: {fileID: 2284825787307409720}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
   arrowPoint: {fileID: 7598846055816153255}
 --- !u!1 &8875374814243463554
 GameObject:

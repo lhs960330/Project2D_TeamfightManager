@@ -31,13 +31,11 @@ public class ArrowAttack : PooledObject
             return;
         // 계속확인 (벡터라서 계속확인해서 화살 방향을 정해줌)
         arrow = transform.position;
-        re:
         if (controller != null)
             enemy = controller.EnemyPos.position;
         else
         {
             controller = gameObject.GetComponentInParent<LongChampionController>();
-            goto re;
         }
 
         // 잘은 모르지만 적과 화살의 방향의 각도를  삼각함수를 통해 각도를 정해줌

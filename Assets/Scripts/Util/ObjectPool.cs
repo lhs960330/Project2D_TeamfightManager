@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +18,11 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < size; i++)
         {
             PooledObject instance = Instantiate(prefab);
+            if(instance == null)
+            {
+                i--;
+                continue;
+            }
             instance.gameObject.SetActive(false);
             instance.Pool = this;
             instance.transform.parent = transform;
@@ -31,15 +35,12 @@ public class ObjectPool : MonoBehaviour
     {
         if (objectPool.Count > 0)
         {
-            re:
             PooledObject instance = objectPool.Pop();
             if(instance == null)
             {
                 instance = objectPool.Pop();
                 objectPool.Push(Instantiate(prefab));
             }
-            if (instance == null)
-                goto re;
 
             instance.transform.position = position;
             instance.transform.rotation = rotation;

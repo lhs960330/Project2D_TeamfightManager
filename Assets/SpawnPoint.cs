@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
@@ -22,8 +23,12 @@ public class SpawnPoint : MonoBehaviour
 
     IEnumerator RespawnRutine()
     {
+        int loop = 0;
         while (true)
         {
+            loop++;
+            if (loop > 10000)
+                throw new InvalidOperationException("A");
             foreach (var prefab in prefabs)
             {
                 if (GameObject.Find(prefab.name + "(Clone)") == null && prefab.Team == bule)
