@@ -60,13 +60,8 @@ public class ShortChampionController : MonoBehaviour
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
-        int loop = 0;
         while (EnemyPos)
         {
-            loop++;
-            if (loop > 10000)
-                throw new InvalidOperationException("A");
-
             // 현재상태가 어택일때만 코루틴을 사용
             if (stateMachine.CheckState(State.Attack))
             {
@@ -299,6 +294,14 @@ public class ShortChampionController : MonoBehaviour
             // 죽인다.
             if (isDie)
             {
+                if (controller.data.Team == 0)
+                {
+                    Manager.Game.SetBuleScore();
+                }
+                else
+                {
+                    Manager.Game.SetRedScore();
+                }
                 controller.StopAttack();
                 isDie = false;
                 controller.data.animator.Play("Die");

@@ -48,3 +48,6 @@ TagManager:
   - name: Champion
     uniqueID: 3573891835
     locked: 0
+  - name: HP
+    uniqueID: 1550447369
+    locked: 0

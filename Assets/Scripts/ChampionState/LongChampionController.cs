@@ -13,11 +13,11 @@ public class LongChampionController : MonoBehaviour
 
     // 상태들 저장할 상태머신을 가져옴
     private StateMachine<State> stateMachine = new StateMachine<State>();
-    public StateMachine<State> StateMachine {  get { return stateMachine; } }
+    public StateMachine<State> StateMachine { get { return stateMachine; } }
 
     // 각 챔피언에 스택이 담긴 클래스를 가져옴 
     [SerializeField] ChampionData data;
-    public ChampionData Data { get {  return data; } }
+    public ChampionData Data { get { return data; } }
     [SerializeField] LayerMask wallLayer;
 
     // 에로우 포인트를 가져옴
@@ -75,21 +75,17 @@ public class LongChampionController : MonoBehaviour
     Coroutine attackRouine;
     IEnumerator AttackRoutine()
     {
-        int loop = 0;
         while (EnemyPos)
         {
-            loop++;
-            if (loop > 10000)
-                throw new InvalidOperationException("A");
-
             if (stateMachine.CheckState(State.Attack))
             {
                 isAttack = false;
                 // 어택 애니메이션을 실행해줌
                 data.animator.Play("Attack");
-                
-                PooledObject pooledObject = arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
-                Debug.Log($"{pooledObject.name} 소환 및 공격 대기");
+                if (arrowPoint != null)
+                {
+                    PooledObject pooledObject = arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
+                }
                 yield return new WaitForSeconds(data.attackTime);
                 isAttack = true;
                 yield return new WaitForSeconds(0.1f);
@@ -257,8 +253,7 @@ public class LongChampionController : MonoBehaviour
             else if (controller.enemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
-
-            }
+                            }
             // 사거리안에 들어왔을때 공격으로
             else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
@@ -267,6 +262,10 @@ public class LongChampionController : MonoBehaviour
         }
         public override void Exit()
         {
+            if (controller.Enemy == null)
+            {
+                controller.StopAttack();
+            }
             if (controller.targetEnemy == null)
             {
                 controller.Enemy.Remove(controller.targetEnemy);
@@ -358,9 +357,6 @@ public class LongChampionController : MonoBehaviour
             {
                 hitDir = ((Vector3)hit.point - controller.transform.position).normalized;
             }
-            /* if (hit != true)
-                 return;
-             Debug.Log(hit.collider.name);*/
         }
         public override void Update()
         {
@@ -395,7 +391,7 @@ public class LongChampionController : MonoBehaviour
             }
             // 나와 적 사이에 x가 0보다 작으면 왼쪽을 보고 크면 오른쪽보게한다.
             // 여기선 그 반대쪽으로 가야되니 -해준다.
-           
+
             curnt = controller.gameObject.GetComponent<SpriteRenderer>().flipX;
         }
 
@@ -406,17 +402,13 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Die);
             }
-            if (controller.EnemyPos == null)
-            {
-                controller.stateMachine.ChangeState(State.Idle);
-            }
-            if (Vector3.Distance(controller.transform.position, startPos) >= 2)
-            {
-                controller.stateMachine.ChangeState(State.Attack);
-            }
             else if (controller.EnemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
+            }
+            else if (Vector3.Distance(controller.transform.position, startPos) >= 2)
+            {
+                controller.stateMachine.ChangeState(State.Attack);
             }
         }
         public override void Exit()
@@ -440,6 +432,7 @@ public class LongChampionController : MonoBehaviour
     // 죽을때
     private class DieState : ChampionState
     {
+
         bool isDie = true;
         public DieState(LongChampionController owner) : base(owner)
         {
@@ -448,6 +441,14 @@ public class LongChampionController : MonoBehaviour
         {
             if (isDie)
             {
+                if (controller.data.Team == 0)
+                {
+                    Manager.Game.SetBuleScore();
+                }
+                else
+                {
+                    Manager.Game.SetRedScore();
+                }
                 controller.StopAttack();
                 isDie = false;
                 controller.data.animator.Play("Die");

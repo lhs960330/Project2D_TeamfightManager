@@ -9,6 +9,7 @@ public class ArrowAttack : PooledObject
     float angle;
     // 화살 방향
     Vector2 arrow;
+    Vector2 arrowEnd;
     // 적 방향
     Vector2 enemy;
     // 화살 속도
@@ -29,9 +30,10 @@ public class ArrowAttack : PooledObject
     {
         if (enemy == null)
             return;
-        // 계속확인 (벡터라서 계속확인해서 화살 방향을 정해줌)
+        arrowEnd = transform.position;
         arrow = transform.position;
-        if (controller != null)
+        // 계속확인 (벡터라서 계속확인해서 화살 방향을 정해줌)
+        if (controller.EnemyPos != null)
             enemy = controller.EnemyPos.position;
         else
         {
@@ -43,10 +45,9 @@ public class ArrowAttack : PooledObject
         // 화살의 회전값을 적회전값으로 보내줌
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.position = Vector2.Lerp(arrow, enemy, speed * Time.deltaTime);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Release();
+        if(arrowEnd == enemy)
+        {
+            Release();
+        }
     }
 }

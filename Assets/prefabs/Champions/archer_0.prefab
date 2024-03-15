@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3345839543349677850}
   - component: {fileID: 2406371186875519803}
   - component: {fileID: 1966874945111043101}
-  - component: {fileID: 4747956028686982692}
   m_Layer: 3
   m_Name: archer_0
   m_TagString: Champion
@@ -222,21 +221,8 @@ MonoBehaviour:
   data: {fileID: 2406371186875519803}
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   arrowPoint: {fileID: 8801632130277444916}
---- !u!114 &4747956028686982692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190449440689917571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e147d614bc57f34ab6119c8883f6f00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1966874945111043101}
 --- !u!1 &8950355320317244040
 GameObject:
   m_ObjectHideFlags: 0
