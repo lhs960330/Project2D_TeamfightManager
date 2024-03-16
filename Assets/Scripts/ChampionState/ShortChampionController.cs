@@ -35,6 +35,7 @@ public class ShortChampionController : MonoBehaviour
 
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
+        Manager.Game.ChampionDataProduce(data);
     }
 
     private void Update()

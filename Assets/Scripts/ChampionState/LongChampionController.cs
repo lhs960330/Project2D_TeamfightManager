@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 
 public class LongChampionController : MonoBehaviour
@@ -42,19 +43,26 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Die, new DieState(this));
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
-
+        Manager.Game.ChampionDataProduce(data);
+        isAttack = true;
     }
 
     private void Update()
     {
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
+        Debug.Log(StateMachine.CurState.ToString());
+        if(Enemy !=null && Enemy[0] == null)
+        {
+            Enemy.RemoveAt(0);
+        }
+        if (Enemy == null)
+        {
+            StopAttack();
+        }
+
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
 
     public void Attack()
     {
@@ -79,9 +87,9 @@ public class LongChampionController : MonoBehaviour
         {
             if (stateMachine.CheckState(State.Attack))
             {
-                isAttack = false;
                 // 어택 애니메이션을 실행해줌
                 data.animator.Play("Attack");
+                // 발사체 소환
                 if (arrowPoint != null)
                 {
                     PooledObject pooledObject = arrowPoint.GetPool(arrowPoint.transform.position, arrowPoint.transform.rotation);
@@ -94,6 +102,7 @@ public class LongChampionController : MonoBehaviour
             {
                 yield return null;
             }
+            isAttack = false;
         }
 
     }
@@ -306,6 +315,7 @@ public class LongChampionController : MonoBehaviour
         }
         public override void Transition()
         {
+            Debug.Log(controller.IsAttack);
             if (controller.data.hp <= 0)
             {
                 controller.stateMachine.ChangeState(State.Die);
@@ -323,7 +333,6 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.stateMachine.ChangeState(State.Avoid);
             }
-
         }
         public override void Exit()
         {
@@ -331,9 +340,9 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.StopAttack();
             }
-            if (controller.targetEnemy == null)
+            if (controller.Enemy[0] == null)
             {
-                controller.Enemy.Remove(controller.targetEnemy);
+                controller.Enemy.RemoveAt(0);
             }
         }
     }

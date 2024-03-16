@@ -18,20 +18,6 @@ public class GameManager : Singleton<GameManager>
 
         championDatas = new List<ChampionData>();
     }
-    private void Start()
-    {
-        // 잠시 쓰는거(보이면 지워)
-        // 모든 챔피언 데이터를 가져옴 
-        canvas = GetComponent<Canvas>();
-        championDatas = FindObjectsOfType<ChampionData>().ToList();
-        foreach (ChampionData champion in championDatas)
-        {
-            if (champion.Team == 0)
-                countRedteam++;
-            else
-                countBuleteam++;
-        }
-    }
 
     public void SetData()
     {
