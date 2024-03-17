@@ -9,7 +9,6 @@ public class MouseEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] GameObject champion_slot_red;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Å¬¸¯");
         if (pickRutione == null)
         pickRutione = StartCoroutine(PickRutione());
     }
