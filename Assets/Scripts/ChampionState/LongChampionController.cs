@@ -51,7 +51,6 @@ public class LongChampionController : MonoBehaviour
     {
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
-        Debug.Log(StateMachine.CurState.ToString());
         if(Enemy !=null && Enemy[0] == null)
         {
             Enemy.RemoveAt(0);
@@ -315,7 +314,6 @@ public class LongChampionController : MonoBehaviour
         }
         public override void Transition()
         {
-            Debug.Log(controller.IsAttack);
             if (controller.data.hp <= 0)
             {
                 controller.stateMachine.ChangeState(State.Die);
