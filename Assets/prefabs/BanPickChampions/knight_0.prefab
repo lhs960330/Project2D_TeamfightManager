@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 17409896784536454}
   - component: {fileID: 447142995697506604}
   - component: {fileID: 1458423972525169696}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: knight_0
   m_TagString: Champion
   m_Icon: {fileID: 0}
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -721075461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f49bb7322c3a54841b5de844a3b80d56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 6, y: 6}
@@ -130,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 4, y: 6}
   m_EdgeRadius: 0
 --- !u!50 &447142995697506604
 Rigidbody2D:
@@ -169,7 +169,7 @@ Animator:
   m_GameObject: {fileID: 8441545666107481999}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ce8388f18f7964b43998eea3f15faada, type: 2}
+  m_Controller: {fileID: 9100000, guid: 63cec771e7645794789e41f5bf9a12b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -54,7 +54,7 @@ public class GameManager : Singleton<GameManager>
     {
         foreach (ChampionData champion in championDatas)
         {
-            champion.animator.Play("Idle 0");
+            champion.animator.Play("Idle");
             if (champion.gameObject.GetComponentInChildren<arrowSpawn>() != null)
                 Destroy(champion.gameObject.GetComponentInChildren<arrowSpawn>());
         }

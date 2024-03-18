@@ -33,7 +33,7 @@ public class MouseEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     Coroutine pickRutione;
     IEnumerator PickRutione()
     {
-        animator.Play("Attack");
+        animator.Play("BanPickAttack"); 
         champion_slot_red.SetActive(true);
         yield return null;
     }

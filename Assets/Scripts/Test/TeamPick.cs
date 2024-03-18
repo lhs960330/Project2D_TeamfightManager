@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class TeamPick : MonoBehaviour
 {
     [SerializeField] ChampionData prefab;
+    [SerializeField] Image pick;
+
+    public ChampionData Champion { get { return prefab; } }
     private void Awake()
     {
-        ComPick();
+        prefab.Team = 3;
     }
     public void PlayerPick()
     {
@@ -13,12 +18,8 @@ public class TeamPick : MonoBehaviour
     }
 
     public void ComPick()
-    {
+    {       
         prefab.Team = 1;
-    }
-    private void OnDisable()
-    {
-        if (prefab.Team != 0)
-            ComPick();
+        pick.gameObject.SetActive(true);
     }
 }

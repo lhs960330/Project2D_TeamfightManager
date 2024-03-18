@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1458423972525169696}
   - component: {fileID: 7833920000736356479}
   - component: {fileID: 7344379012679717333}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: knight_0
   m_TagString: Champion
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Team: 3
+  Team: 1
   maxHp: 10
   hp: 0
   speed: 4

@@ -51,11 +51,11 @@ public class LongChampionController : MonoBehaviour
     {
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
-        if(Enemy !=null && Enemy[0] == null)
+        if (Enemy != null && Enemy[0] == null)
         {
             Enemy.RemoveAt(0);
         }
-        if (Enemy == null)
+        if (Enemy == null && attackRouine != null)
         {
             StopAttack();
         }
@@ -187,8 +187,10 @@ public class LongChampionController : MonoBehaviour
             if (controller.EnemyPos == null)
                 controller.stateMachine.ChangeState(State.Idle);
             // 가까운 적 찾기
-            foreach (ChampionData a in controller.Enemy)
+            for (int i = 0; i < controller.Enemy.Count; i++)
             {
+                //foreach(ChampionData a in controller.Enemy)
+                ChampionData a = controller.Enemy[i];
                 if (controller.EnemyPos == null)
                     continue;
                 if (a == null)
@@ -196,7 +198,7 @@ public class LongChampionController : MonoBehaviour
                     controller.Enemy.Remove(a);
                 }
                 // 처음 지정한 친구와 나머지 다 비교
-                if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) >= Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
+                else if (Vector3.Distance(controller.transform.position, controller.EnemyPos.position) >= Vector3.Distance(controller.transform.position, a.gameObject.GetComponent<Transform>().position))
                 {
                     // 가장 가까운 적 저장
                     controller.EnemyPos = a.transform;
@@ -261,7 +263,7 @@ public class LongChampionController : MonoBehaviour
             else if (controller.enemyPos == null)
             {
                 controller.stateMachine.ChangeState(State.Idle);
-                            }
+            }
             // 사거리안에 들어왔을때 공격으로
             else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
@@ -278,6 +280,7 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.Enemy.Remove(controller.targetEnemy);
             }
+            controller.data.animator.Play("Idle");
         }
     }
     private class AttackState : ChampionState
@@ -338,10 +341,7 @@ public class LongChampionController : MonoBehaviour
             {
                 controller.StopAttack();
             }
-            if (controller.Enemy[0] == null)
-            {
-                controller.Enemy.RemoveAt(0);
-            }
+
         }
     }
     //회피가동

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3345839543349677850}
   - component: {fileID: 2406371186875519803}
   - component: {fileID: 1966874945111043101}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: archer_0
   m_TagString: Champion
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8031827953849074767}
   - component: {fileID: 8801632130277444916}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: ArrowPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

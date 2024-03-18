@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 public class ShortChampionController : MonoBehaviour
-{ 
+{
     // 적들을 모아둠
     public List<ChampionData> Enemy = new List<ChampionData>();
     // 상태들 모아둠
@@ -192,6 +192,7 @@ public class ShortChampionController : MonoBehaviour
     }
     private class MoveState : ChampionState
     {
+        RaycastHit2D hit;
         public MoveState(ShortChampionController owner) : base(owner)
         {
         }
@@ -199,11 +200,17 @@ public class ShortChampionController : MonoBehaviour
         {
             controller.data.animator.Play("Move");
             dir = (controller.enemyPos.position - controller.transform.position).normalized;
+            Debug.Log($"레이어 결과 : {LayerMask.NameToLayer("chmpion")}");
+            hit = Physics2D.Raycast(controller.transform.position, dir*10 , LayerMask.NameToLayer("chmpion"));
         }
 
         public override void Update()
         {
             // 나와 적 사이에 x가 0보다 작으면 왼쪽을 보고 크면 오른쪽보게한다.
+            if (hit.collider == null)
+            {
+                controller.stateMachine.ChangeState(State.Idle);
+            }
             if (dir.x < 0)
             {
                 controller.gameObject.GetComponent<SpriteRenderer>().flipX = true;
@@ -232,6 +239,7 @@ public class ShortChampionController : MonoBehaviour
                 return;
             }
             // 사거리안에 들어왔을때 공격으로
+
             if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= controller.data.range)
             {
                 controller.stateMachine.ChangeState(State.Attack);
@@ -243,6 +251,7 @@ public class ShortChampionController : MonoBehaviour
             {
                 controller.Enemy.RemoveAt(0);
             }
+            controller.data.animator.Play("Idle");
         }
     }
     private class AttackState : ChampionState

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8548383111743984911}
   - component: {fileID: 6743210326297441018}
   - component: {fileID: 7585659431138023301}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fighter_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0995ebb1f8dc24fae8e51c684dc30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Team: 3
+  Team: 0
   maxHp: 10
   hp: 0
   speed: 4
