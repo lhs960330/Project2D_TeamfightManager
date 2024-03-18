@@ -71,6 +71,20 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         prefabs.RemoveAt(randomPick);
         comcount--;
     }
+
+    public void gameStart()
+    {
+        gameStartRoutine = StartCoroutine(GameStartRoutine());
+    }
+
+    Coroutine gameStartRoutine;
+
+    IEnumerator GameStartRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        GameStart.onClick?.Invoke();
+
+    }
     /*    public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
@@ -165,7 +179,8 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         }
         public override void Enter()
         {
-            controller.GameStart.onClick?.Invoke();
+            controller.gameStart();
+           // controller.GameStart.onClick?.Invoke();
         }
     }
 

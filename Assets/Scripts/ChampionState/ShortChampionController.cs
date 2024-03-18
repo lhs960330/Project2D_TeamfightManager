@@ -200,7 +200,6 @@ public class ShortChampionController : MonoBehaviour
         {
             controller.data.animator.Play("Move");
             dir = (controller.enemyPos.position - controller.transform.position).normalized;
-            Debug.Log($"레이어 결과 : {LayerMask.NameToLayer("chmpion")}");
             hit = Physics2D.Raycast(controller.transform.position, dir*10 , LayerMask.NameToLayer("chmpion"));
         }
 

@@ -14,6 +14,8 @@ public class TeamPick : MonoBehaviour
     }
     public void PlayerPick()
     {
+        if (prefab.Team == 1)
+            return;
         prefab.Team = 0;
     }
 
