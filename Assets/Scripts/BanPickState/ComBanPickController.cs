@@ -96,7 +96,6 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         }
         public override void Enter()
         {
-            Debug.Log("시작");
         }
         public override void Exit()
         {
@@ -118,10 +117,7 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         }
         public override void Enter()
         {
-            Debug.Log("플레이어 픽");
-
             curPlayercount = controller.playercount;
-            Debug.Log($"처음 플레이어 카운트 {curPlayercount}");
         }
         public override void Transition()
         {
@@ -141,7 +137,6 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         {
             curComPickcount = controller.comcount;
             randomPick = Random.Range(0, controller.prefabs.Count);
-            Debug.Log("컴터 픽");
             controller.ComPickStart(randomPick);
         }
 
@@ -170,7 +165,6 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         }
         public override void Enter()
         {
-            Debug.Log("게임 시작");
             controller.GameStart.onClick?.Invoke();
         }
     }
