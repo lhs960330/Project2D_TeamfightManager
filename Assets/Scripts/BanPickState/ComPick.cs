@@ -17,6 +17,5 @@ public class ComPick : MonoBehaviour
     void Update()
     {
         int com = Random.Range(0, prefabs.Count);
-
     }
 }

@@ -32,6 +32,11 @@ public class LongChampionController : MonoBehaviour
 
     private bool isAttack;
     public bool IsAttack { get { return isAttack; } }
+    private void OnEnable()
+    {
+        Manager.Game.ChampionDataProduce(data);
+
+    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -43,12 +48,12 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Die, new DieState(this));
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
-        Manager.Game.ChampionDataProduce(data);
         isAttack = true;
     }
 
     private void Update()
     {
+
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
         if (Enemy != null && Enemy[0] == null)
@@ -333,7 +338,7 @@ public class LongChampionController : MonoBehaviour
                 controller.stateMachine.ChangeState(State.Idle);
             }
             // 상대방과 내 거리가 회피거리안에 들어오고 한대때리고 떄린 시간만큼 기다렸다가 도망 회피상태로 바꿔줌
-            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= 3f && controller.IsAttack)
+            else if (Vector3.Distance(controller.enemyPos.position, controller.transform.position) <= 6f && controller.IsAttack)
             {
                 controller.stateMachine.ChangeState(State.Avoid);
             }

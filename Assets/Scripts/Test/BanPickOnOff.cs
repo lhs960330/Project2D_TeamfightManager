@@ -11,6 +11,7 @@ public class BanPickOnOff : MonoBehaviour
         foreach(var collider in colliders)
         {
             collider.enabled = true;
+            Manager.Game.AllRemove();
         }
     }
 }
