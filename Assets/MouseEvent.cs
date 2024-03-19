@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MouseEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -10,7 +11,7 @@ public class MouseEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         if (pickRutione == null)
-        pickRutione = StartCoroutine(PickRutione());
+            pickRutione = StartCoroutine(PickRutione());
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -33,8 +34,16 @@ public class MouseEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     Coroutine pickRutione;
     IEnumerator PickRutione()
     {
-        animator.Play("BanPickAttack"); 
+        animator.Play("BanPickAttack");
         champion_slot_red.SetActive(true);
         yield return null;
+    }
+
+    public void BanPickReset()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+           transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 }

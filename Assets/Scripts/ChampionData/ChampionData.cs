@@ -6,9 +6,10 @@ public class ChampionData : MonoBehaviour
     [SerializeField] public int Team;
     [SerializeField] public int maxHp;
     public int hp;
+    [SerializeField] public int Armor;
     [SerializeField] public int speed;
     [SerializeField] public float range;
-    [SerializeField] public int attackTime;
+    [SerializeField] public float attackTime;
     [SerializeField] public int damage;
     public int respawn = 5;
     public Transform my;

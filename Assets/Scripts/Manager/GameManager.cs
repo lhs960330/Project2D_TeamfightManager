@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class GameManager : Singleton<GameManager>
 {
     // 데이터를 들고 있는 챔피언들 관리
     public List<ChampionData> championDatas;
+    public ReStart restart;
     public int countRedteam;
     public int countBuleteam;
     public Canvas canvas;
@@ -52,20 +54,41 @@ public class GameManager : Singleton<GameManager>
 
     public void GameEnd()
     {
+        restart = FindAnyObjectByType<ReStart>();
         foreach (ChampionData champion in championDatas)
         {
             champion.animator.Play("Idle");
+            if (champion.GetComponent<LongChampionController>() != null)
+                champion.GetComponent<LongChampionController>().enabled = false;
+            if (champion.GetComponent<ShortChampionController>() != null)
+                champion.GetComponent<ShortChampionController>().enabled = false;
+
+
             if (champion.gameObject.GetComponentInChildren<arrowSpawn>() != null)
                 Destroy(champion.gameObject.GetComponentInChildren<arrowSpawn>());
         }
+        StartCoroutine(RestarRoutine());
     }
-
-/*    public void KillScore()
+    IEnumerator RestarRoutine()
     {
+        yield return new WaitForSeconds(3);
+        Reset();
+        restart.Restart?.Invoke();
 
-    }*/
+    }
+    public void Reset()
+    {
+        foreach (ChampionData champion in championDatas)
+        {
+            Destroy(champion.gameObject);
+        }
+    }
+    /*    public void KillScore()
+        {
 
-   public int GetRedScore()
+        }*/
+
+    public int GetRedScore()
     {
         return RedScore;
     }

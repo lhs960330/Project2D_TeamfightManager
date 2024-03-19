@@ -8,7 +8,7 @@ public class TeamPick : MonoBehaviour
     [SerializeField] Image pick;
 
     public ChampionData Champion { get { return prefab; } }
-    private void Awake()
+    private void Start()
     {
         prefab.Team = 3;
     }

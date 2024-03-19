@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public enum State { Start, PlayerTurn, ComTurn, End }
@@ -13,6 +10,8 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
     public State curPickState = State.Start;
     [SerializeField] TeamPick teamPick;
     [SerializeField] List<GameObject> prefabs;
+    List<GameObject> originprefabs;
+    [SerializeField] GameObject gameObject;
     Camera mainCamera;
     int playercount = 3;
     int comcount = 3;
@@ -24,8 +23,13 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         BanPickMachune.AddState(State.ComTurn, new ComTurnState(this));
         BanPickMachune.AddState(State.End, new EndState(this));
 
-        BanPickMachune.Start(State.Start);
+        BanPickMachune.Start(State.PlayerTurn);
         mainCamera = Camera.main;
+        originprefabs = new List<GameObject>();
+        foreach (var prefab in prefabs)
+        {
+            originprefabs.Add(prefab);
+        }
     }
     private void Update()
     {
@@ -110,6 +114,10 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         }
         public override void Enter()
         {
+            foreach (var prefab in controller.originprefabs)
+            {
+                controller.prefabs.Add(prefab);
+            }
         }
         public override void Exit()
         {
@@ -154,8 +162,6 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
             controller.ComPickStart(randomPick);
         }
 
-
-
         public override void Transition()
         {
             if (controller.comcount != 0 && curComPickcount > controller.comcount)
@@ -174,13 +180,32 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
     }
     private class EndState : BanPickState
     {
+        float time;
         public EndState(ComBanPickController controller) : base(controller)
         {
         }
         public override void Enter()
         {
+
             controller.gameStart();
-           // controller.GameStart.onClick?.Invoke();
+            // controller.GameStart.onClick?.Invoke();
+            controller.playercount = 3;
+            controller.comcount = 3;
+        }
+        public override void Update()
+        {
+            time += Time.deltaTime;
+        }
+        public override void Transition()
+        {
+            if (time > 4)
+            {
+                if (controller.gameObject.activeSelf == false)
+                {
+
+                    controller.BanPickMachune.ChangeState(State.Start);
+                }
+            }
         }
     }
 

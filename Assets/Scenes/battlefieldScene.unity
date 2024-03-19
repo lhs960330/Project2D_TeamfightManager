@@ -1991,6 +1991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 155029754}
+  - component: {fileID: 155029755}
   m_Layer: 3
   m_Name: Champion
   m_TagString: Untagged
@@ -2019,6 +2020,25 @@ Transform:
   - {fileID: 1377219409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &155029755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155029753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377e5dfded6c3934cbbda4668e84e01d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 1770862559}
+  - {fileID: 1519458432}
+  - {fileID: 1373388693}
+  - {fileID: 2126916493}
+  - {fileID: 630966105}
+  - {fileID: 1377219414}
 --- !u!1 &155708676
 GameObject:
   m_ObjectHideFlags: 0
@@ -7493,6 +7513,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4001672028225424400, guid: bcdae5cc23227c942bbc49d587cc4a38, type: 3}
   pick: {fileID: 861448997}
+--- !u!61 &630966105 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 697116136309285961, guid: 6d96a994850e13b4493773197f890b42, type: 3}
+  m_PrefabInstance: {fileID: 630966099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &638850790
 GameObject:
   m_ObjectHideFlags: 0
@@ -16159,6 +16184,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6743210326297441018, guid: c899b1bc2ea141947973295534a80326, type: 3}
   pick: {fileID: 1077088431}
+--- !u!61 &1373388693 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3384901289997740409, guid: 3e90b896ae6d6c144aea1ad63c0f924a, type: 3}
+  m_PrefabInstance: {fileID: 104010834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1377219408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16243,6 +16273,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 121717414026036447, guid: 1b7f6b521a4173f41b03ac2b3e576a7e, type: 3}
   pick: {fileID: 2099994538}
+--- !u!61 &1377219414 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 128152528971367499, guid: c77a4d4fd64ed324db4d781e384a4816, type: 3}
+  m_PrefabInstance: {fileID: 1377219408}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1378232556
 GameObject:
   m_ObjectHideFlags: 0
@@ -16281,6 +16316,7 @@ MonoBehaviour:
   - {fileID: 1463251911}
   - {fileID: 182395246}
   - {fileID: 1364935589}
+  gameObject: {fileID: 439036821}
   GameStart: {fileID: 174680631}
 --- !u!4 &1378232558
 Transform:
@@ -17704,6 +17740,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7833920000736356479, guid: 555ea94f49e32d64eb70c6adefb0fea4, type: 3}
   pick: {fileID: 328437976}
+--- !u!61 &1519458432 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 17409896784536454, guid: d94a45fe6cc7953498493317b8654eec, type: 3}
+  m_PrefabInstance: {fileID: 938613741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1524470033
 GameObject:
   m_ObjectHideFlags: 0
@@ -20930,6 +20971,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2406371186875519803, guid: 6ce891885a179a747a0a754424f70d8f, type: 3}
   pick: {fileID: 1030626763}
+--- !u!61 &1770862559 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3272218106679047989, guid: 5865e1bdaaf89284ebe50188901ada7a, type: 3}
+  m_PrefabInstance: {fileID: 1770862551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1779323300
 GameObject:
   m_ObjectHideFlags: 0
@@ -23029,6 +23075,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  Respawn: {fileID: 439036821}
+  RedWin:
+  - {fileID: 1044011315}
+  - {fileID: 837196881}
+  BlueWin:
+  - {fileID: 1334340037}
+  - {fileID: 1233476351}
 --- !u!1 &1886780955
 GameObject:
   m_ObjectHideFlags: 0
@@ -26078,6 +26131,185 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067930625}
   m_CullTransparentMesh: 1
+--- !u!1 &2068035991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2068035993}
+  - component: {fileID: 2068035992}
+  m_Layer: 0
+  m_Name: ReStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2068035992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068035991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f199630724dc7847a8ba64d6379737a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Restart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1742631929}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1885033828}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2029091116}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 252389598}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2061397426}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1947817310}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1988221802}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 228583542}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 155029753}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 683187630}
+        m_TargetAssemblyTypeName: MouseEvent, Assembly-CSharp
+        m_MethodName: BanPickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 155029755}
+        m_TargetAssemblyTypeName: BanPickOnOff, Assembly-CSharp
+        m_MethodName: OnOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &2068035993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068035991}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.6291833, y: 5.3811746, z: 17.661283}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2079918142
 GameObject:
   m_ObjectHideFlags: 0
@@ -26602,6 +26834,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2284825787307409720, guid: 99070dd4e3f72884cae6f26d61e43896, type: 3}
   pick: {fileID: 1722535807}
+--- !u!61 &2126916493 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5065855710136464062, guid: 552fe23db1a33f64283e83c316c9ab82, type: 3}
+  m_PrefabInstance: {fileID: 2126916486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -26615,3 +26852,4 @@ SceneRoots:
   - {fileID: 1885033827}
   - {fileID: 677225617}
   - {fileID: 1378232558}
+  - {fileID: 2068035993}

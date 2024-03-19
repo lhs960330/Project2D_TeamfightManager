@@ -10,14 +10,13 @@ public class ComPick : MonoBehaviour
     void Start()
     {
         prefabs = new List<GameObject>();
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-      int com =  Random.Range(0, prefabs.Count);
-        
-       
+        int com = Random.Range(0, prefabs.Count);
+
     }
 }

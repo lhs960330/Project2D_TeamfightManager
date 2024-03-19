@@ -62,7 +62,10 @@ public class LongChampionController : MonoBehaviour
 
     }
 
-
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     public void Attack()
     {
         // 어택 코루틴을 사용하기 위해 만듬
@@ -107,7 +110,7 @@ public class LongChampionController : MonoBehaviour
     }
     public void HitDamag()
     {
-        enemyPos.GetComponent<ChampionData>().hp -= data.damage;
+        enemyPos.GetComponent<ChampionData>().hp -= data.damage - (targetEnemy.Armor / 10);
     }
 
     private class ChampionState : BaseState<State>

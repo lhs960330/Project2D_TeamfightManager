@@ -52,6 +52,11 @@ public class ShortChampionController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     public void StopAttack()
     {
         // ≥°≥™∏È ∏ÿ√ﬂ∞‘ «ÿ¡‹
@@ -77,7 +82,7 @@ public class ShortChampionController : MonoBehaviour
     }
     public void HitDamag()
     {
-        targetEnemy.hp -= data.damage;
+        targetEnemy.hp -= data.damage - (targetEnemy.Armor / 10);
     }
     private class ChampionState : BaseState<State>
     {
