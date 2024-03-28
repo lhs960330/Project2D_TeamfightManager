@@ -25,26 +25,26 @@ public class GameManager : Singleton<GameManager>
     {
         // 모든 챔피언 데이터를 가져옴 
         championDatas = FindObjectsOfType<ChampionData>().ToList();
-        foreach (ChampionData champion in championDatas)
+        foreach ( ChampionData champion in championDatas )
         {
-            if (champion.Team == 0)
+            if ( champion.Team == 0 )
                 countRedteam++;
             else
                 countBuleteam++;
         }
     }
-    public void ChampionDataProduce(ChampionData cham)
+    public void ChampionDataProduce( ChampionData cham )
     {
-        if (cham.Team == 0)
+        if ( cham.Team == 0 )
             countRedteam++;
         else
             countBuleteam++;
 
         championDatas.Add(cham);
     }
-    public void RemoveChampion(ChampionData champion)
+    public void RemoveChampion( ChampionData champion )
     {
-        if (champion.Team == 0)
+        if ( champion.Team == 0 )
             countRedteam--;
         else
             countBuleteam--;
@@ -59,18 +59,18 @@ public class GameManager : Singleton<GameManager>
     public void GameEnd()
     {
         restart = FindAnyObjectByType<ReStart>();
-        foreach (ChampionData champion in championDatas)
+        foreach ( ChampionData champion in championDatas )
         {
             champion.animator.Play("Idle");
-            if (champion.GetComponent<LongChampionController>() != null)
+            if ( champion.GetComponent<LongChampionController>() != null )
                 champion.GetComponent<LongChampionController>().enabled = false;
-            if (champion.GetComponent<ShortChampionController>() != null)
+            if ( champion.GetComponent<ShortChampionController>() != null )
                 champion.GetComponent<ShortChampionController>().enabled = false;
 
 
-            if (champion.gameObject.GetComponentInChildren<arrowSpawn>() != null)
+            if ( champion.gameObject.GetComponentInChildren<arrowSpawn>() != null )
                 Destroy(champion.gameObject.GetComponentInChildren<arrowSpawn>());
-            Destroy(champion.gameObject,3);
+            Destroy(champion.gameObject, 2);
 
         }
         //StartCoroutine(RestarRoutine());
@@ -85,7 +85,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void Reset()
     {
-        foreach (ChampionData champion in championDatas)
+        foreach ( ChampionData champion in championDatas )
         {
             Destroy(champion.gameObject);
         }

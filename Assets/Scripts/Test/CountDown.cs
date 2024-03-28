@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
-    float setTime = 60;
+    float setTime = 10;
     [SerializeField] TMP_Text gameTime;
     public UnityEvent unityEvent;
     [SerializeField] GameObject Respawn;
