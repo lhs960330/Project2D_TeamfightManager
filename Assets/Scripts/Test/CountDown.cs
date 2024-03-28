@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
-    float setTime = 5;
+    float setTime = 60;
     [SerializeField] TMP_Text gameTime;
     public UnityEvent unityEvent;
     [SerializeField] GameObject Respawn;
@@ -59,7 +59,6 @@ public class CountDown : MonoBehaviour
     IEnumerator GoldenTime()
     {
         isGoldenTime = true;
-        Debug.Log("골든 타임 시작!");
         yield return new WaitUntil(() => (Manager.Game.GetBuleScore() != Manager.Game.GetRedScore()));
 
         if (Manager.Game.GetRedScore() > Manager.Game.GetBuleScore())
