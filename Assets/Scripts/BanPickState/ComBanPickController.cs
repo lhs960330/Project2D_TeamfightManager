@@ -89,16 +89,7 @@ public class ComBanPickController : MonoBehaviour//, IPointerClickHandler
         GameStart.onClick?.Invoke();
 
     }
-    /*    public void OnPointerClick(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                Debug.Log(eventData.position);
-                RaycastHit2D hit = Physics2D.Raycast(eventData.position, Vector3.down, 100f, LayerMask.NameToLayer("UI"));
-                Debug.Log(hit.collider.gameObject.name);
-            }
-        }*/
-
+ 
     private class BanPickState : BaseState<State>
     {
         protected ComBanPickController controller;

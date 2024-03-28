@@ -51,6 +51,10 @@ public class GameManager : Singleton<GameManager>
         championDatas.Remove(champion);
 
     }
+    public void AllRemove()
+    {
+        championDatas.Clear();
+    }
 
     public void GameEnd()
     {
@@ -66,14 +70,17 @@ public class GameManager : Singleton<GameManager>
 
             if (champion.gameObject.GetComponentInChildren<arrowSpawn>() != null)
                 Destroy(champion.gameObject.GetComponentInChildren<arrowSpawn>());
+            Destroy(champion.gameObject,3);
+
         }
-        StartCoroutine(RestarRoutine());
+        //StartCoroutine(RestarRoutine());
+        restart.Restart?.Invoke();
+
     }
     IEnumerator RestarRoutine()
     {
         yield return new WaitForSeconds(3);
         Reset();
-        restart.Restart?.Invoke();
 
     }
     public void Reset()

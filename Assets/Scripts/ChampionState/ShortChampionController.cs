@@ -23,7 +23,11 @@ public class ShortChampionController : MonoBehaviour
     Transform enemyPos;
     public Transform EnemyPos { get { return enemyPos; } set { enemyPos = value; } }
 
+    private void OnEnable()
+    {
+        Manager.Game.ChampionDataProduce(data);
 
+    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -35,7 +39,6 @@ public class ShortChampionController : MonoBehaviour
 
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
-        Manager.Game.ChampionDataProduce(data);
     }
 
     private void Update()

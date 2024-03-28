@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Team: 3
-  maxHp: 1
+  maxHp: 190
   hp: 0
   Armor: 30
   speed: 6

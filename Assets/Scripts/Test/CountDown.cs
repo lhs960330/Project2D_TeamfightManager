@@ -37,18 +37,16 @@ public class CountDown : MonoBehaviour
                 if (Manager.Game.GetBuleScore() > Manager.Game.GetRedScore() && indexBule < BlueWin.Count)
                 {
                     WinnerBlue();
-                    Manager.Game.GameEnd();
+                    isGoldenTime = true;
                 }
                 else if (Manager.Game.GetBuleScore() < Manager.Game.GetRedScore() && indexRed < RedWin.Count)
                 {
                     WinnerRed();
-                    Manager.Game.GameEnd();
+                    isGoldenTime = true;
                 }
                 else if (Manager.Game.GetBuleScore() == Manager.Game.GetRedScore())
                 {
                     StartCoroutine(GoldenTime());
-                    Respawn.SetActive(false);
-
                 }
 
             }
@@ -56,6 +54,7 @@ public class CountDown : MonoBehaviour
 
         }
     }
+    
     IEnumerator GoldenTime()
     {
         isGoldenTime = true;
@@ -81,6 +80,9 @@ public class CountDown : MonoBehaviour
         roundWin = RedWin[indexBule];
         roundWin.gameObject.SetActive(true);
         indexRed++;
+        Manager.Game.GameEnd();
+        Respawn.SetActive(false);
+
     }
 
     public void WinnerBlue()
@@ -88,5 +90,8 @@ public class CountDown : MonoBehaviour
         roundWin = BlueWin[indexBule];
         roundWin.gameObject.SetActive(true);
         indexBule++;
+        Manager.Game.GameEnd();
+        Respawn.SetActive(false);
+
     }
 }

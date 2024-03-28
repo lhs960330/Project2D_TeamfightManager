@@ -14,7 +14,7 @@ public class SpawnPointRed : MonoBehaviour
     Vector3 Size;
     Vector3 SpawnPos;
 
-    private void Awake()
+    private void OnEnable()
     {
         SpawnSize = GetComponent<BoxCollider2D>();
         BasePos = transform.position;

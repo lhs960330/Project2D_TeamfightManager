@@ -32,6 +32,11 @@ public class LongChampionController : MonoBehaviour
 
     private bool isAttack;
     public bool IsAttack { get { return isAttack; } }
+    private void OnEnable()
+    {
+        Manager.Game.ChampionDataProduce(data);
+
+    }
     private void Start()
     {
         // 각 상태들을 상태머신에 저장
@@ -43,12 +48,12 @@ public class LongChampionController : MonoBehaviour
         stateMachine.AddState(State.Die, new DieState(this));
         // 첫 상태를 가져옴
         stateMachine.Start(State.Find);
-        Manager.Game.ChampionDataProduce(data);
         isAttack = true;
     }
 
     private void Update()
     {
+
         // 상태가 변할때마다 확인해줌
         stateMachine.Update();
         if ( Enemy != null && Enemy [0] == null )
